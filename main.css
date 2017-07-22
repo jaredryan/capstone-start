@@ -1,5 +1,5 @@
 * {
-  box-sizing: border-box;
+  	box-sizing: border-box;
 }
 
 .search-bar {
@@ -47,4 +47,17 @@ button:hover {
 
 .update-results {
 	padding: 20px;
+}
+
+/*.click-genre:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}*/
+
+.search-button {
+	width: 100px;
+}
+
+.rec-list {
+	text-align: left;
 }

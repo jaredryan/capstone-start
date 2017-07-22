@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>NetRecs</title>
-	<meta description="Not sure what to watch on Netflix\u2122? Start your search here.">
-	<meta keywords="Netflix, movies, suggested, recommendations, lists, series, TV, NetRecs">
+	<title>TasteTest</title>
+	<meta description="Looking for new recommendations? Start your search here.">
+	<meta keywords="TV, movies, suggestions, recommendations, lists, television, series, MovieRecs">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="main.css" rel="stylesheet" type="text/css" />
 </head>
 <header>
-	<a id="search-title"></a><h1>NetRecs</h1>
-	<h3>Not sure what to watch on Netflix<sup>TM</sup>? 
-		Start your search here.</h3>
+	<a id="search-title"></a><h1>MovieRecs</h1>
+	<h3>Looking for new recommendations? Start your search here.</h3>
 	<form action="#" class="js-search-form">
 		<div class="search-bar">
-			<label for="query"></label>
 	        <input type="text" class="js-query search" 
 	         	   placeholder="Movie, genre, actor/actress...">
+	        <a href="#rec-link">
+        		<button type="button" class="search-button">Search</button>
+        	</a>
         </div>
-        <a href="#rec-link"></a>
-        	<button type="submit">Search</button>
-        </a>
-        <a href="#chosen-link"></a>
-	    	<button type="button">Your List</button>
-	   	</a>
+        <!-- <a href="#rec-link"></a>
+        	<button type="button" class="keyword">Keyword</button>
+        </a> -->
+       <!--  <a href="#rec-link"></a>
+        	<button type="button" class="director">Director</button>
+        </a> -->
+        <!-- <br> -->
     </form>
+    <a href="#chosen-link">
+    	<button type="button">Your List</button>
+   	</a>
 </header>
 <body>
 	<main>
@@ -31,16 +36,22 @@
 		<a id="rec-link" class="rec-link"><h1>Recommendations</h1></a>
 		<div class="rec-list js-rec-list">
 			<!-- Results are inserted here	 -->
+			
+			<!-- <div class="result">
+      			<p class="click-genre">Genre</p>
+  			</div> -->
+
+  			<!-- Sample to play with. are inserted here	 -->
 		</div>
 		<div class="update-results">
 			<!-- Update visibility and links of these buttons regularly	 -->
 	    	<a href="" class="previous"><- Previous</a>
 	    	<a href="" class="next">Next -></a>
 		</div>
-		<a href="#search-title"></a>
+		<a href="#search-title">
     		<button type="button">Search</button>
    		</a>
-   		<a href="#chosen-link"></a>
+   		<a href="#chosen-link">
     		<button type="button">Your List</button>
    		</a>
 	</div>
@@ -49,10 +60,10 @@
 		<div class="chosen-list">
 			<!-- Chosen elements are inserted here	 -->
 		</div>
-		<a href="#search-title"></a>
+		<a href="#search-title">
     		<button type="button">Search</button>
    		</a>
-   		<a href="#chosen-link"></a>
+   		<a href="#rec-link">
     		<button type="button">Recommendations</button>
    		</a>
 	</div>
