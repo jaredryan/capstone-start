@@ -1,10 +1,30 @@
 var RESULT_HTML_TEMPLATE = (
   '<div class="result">' +
-      '<a class="js-result-image" href="">Video?</a>' + 
-      '<p class="js-result-title"></p>' + 
-      '<p class="js-result-type"></p>' + 
-      '<p class="js-result-teaser"></p>' + 
-      '<a class="js-result-wURL" href="">Learn More</a>' + 
+      '<div class="row">' + 
+        '<img class="js-result-image result-image" src="" alt="Awesome Movie Poster">' + 
+      '</div>' + 
+
+      '<div class="row">' + 
+        '<div class="category">'+
+          '<p class="js-summary summary tooltip">Summary<span class="tooltip-text summary-tooltip">Summary<br>Your mom</span></p>' + 
+        '</div>'+
+        '<div class="category">'+
+          '<p class="js-genre genre tooltip">Netflix<span class="tooltip-text">Netflix</span></p>' + 
+        '</div>'+
+      '</div>'+
+
+      '<div class="row">' + 
+        '<div class="category-2">'+
+          '<p class="js-cast cast tooltip">Cast<span class="tooltip-text">Cast</span></p>' + 
+        '</div>'+
+        '<div class="category-2">'+
+          '<p class="js-netflix netflix tooltip">Genre<span class="tooltip-text">Genre</span></p>' +
+        '</div>'+
+        '<div class="category-2">'+
+          '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip">Detals</span></p>' +
+        '</div>'+
+      '</div>' +
+
   '</div>'
 );
 
@@ -21,12 +41,12 @@ var RESULT_HTML_TEMPLATE = (
 
 function getDataFromApi(searchTerm, callback) {
   var query = {
-    q: searchTerm,
-    key: "QS2J66v7DgzghRrE21wvg"
+    query: searchTerm,
+    api_key: "89ac11ce0fa4d53d4c4df236630139ab"
     // Insert relevant parameters here
   }
   $.ajax({
-    url: "https://www.goodreads.com/search/index.xml", 
+    url: "https://api.themoviedb.org/3/search/movie", 
     data: query, 
     dataType: "jsonp",
     success: callback
@@ -47,22 +67,30 @@ function getDataFromApi(searchTerm, callback) {
 
 function renderResult(result) {
   var template = $(RESULT_HTML_TEMPLATE);
+  // Movie Poster
+  if (result.poster_path !== null) {
+    var string = "http://image.tmdb.org/t/p/w185/" + result.poster_path;
+    template.find(".js-result-image").attr("src", string);
+  }
 
-  template.find(".js-result-image").attr("href", result.yURL);
-  template.find(".js-result-title").text(result.Name);
-  template.find(".js-result-type").text(result.Type);
-  template.find(".js-result-teaser").text(result.wTeaser);
-  template.find(".js-result-wURL").attr("href", result.wURL);
+  // First, summary
+  var summary = "<span>" + result.title + "</span><br>" + 
+                "<span>" + result.overview + "</span><br>";
+  template.find('.summary-tooltip').html(summary);
+  // Skip Genre for now
+  var details = "<span>Popularity: " + result.popularity + "</span><br>" + 
+                "<span>Release: " + result.release_date + "</span><br>";
+  template.find('.detail-tooltip').html(details);
+
   return template;
 }
 
 // Done
 function displaySearchData(data) {
-  console.log(data);
-  // var results = data.Similar.Results.map(function(item) {
-  //    return renderResult(item);
-  // });
-  // $('.js-rec-list').html(results);
+  var results = data.results.map(function(item) {
+     return renderResult(item);
+  });
+  $('.js-rec-list').html(results);
 }
 
 

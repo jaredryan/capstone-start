@@ -61,3 +61,69 @@ button:hover {
 .rec-list {
 	text-align: left;
 }
+
+.rec-section {
+	width: 100%;
+}
+
+.summary, .genre, .cast, .netflix, .details {
+	font-size: 16px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.result {
+	padding: 0px;
+	margin: 0px;
+	display: inline-block;
+	width: 20%;
+}
+
+.row {
+	font-size: 0px;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	display: block;
+}
+
+.category {
+	width: 50%;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+	display: inline-block;
+}
+
+.category-2 {
+	width: 33.33%;
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+	display: inline-block;
+}
+
+.result-image {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	height: 300px;
+}
+
+.tooltip .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+}
