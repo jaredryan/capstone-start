@@ -5,11 +5,10 @@
 	<meta description="Looking for new recommendations? Start your search here.">
 	<meta keywords="TV, movies, suggestions, recommendations, lists, television, series, MovieRecs">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="main.css" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/balloon-css/0.4.0/balloon.min.css">
+	<link href="main.css" rel="stylesheet" type="text/css">
 </head>
 <header>
-	<a id="search-title"></a><h1>MovieRecs</h1>
+	<a id="search-title"><h1>MovieRecs</h1></a>
 	<h3>Looking for new recommendations? Start your search here.</h3>
 	<form action="#" class="js-search-form">
 		<div class="search-bar">
@@ -33,41 +32,41 @@
 </header>
 <body>
 	<main>
-	<div class="rec-section">
-		<a id="rec-link" class="rec-link"><h1>Recommendations</h1></a>
-		<div class="rec-list js-rec-list">
-			<!-- Results are inserted here	 -->
-			
-			<!-- <div class="result">
-      			<p class="click-genre">Genre</p>
-  			</div> -->
+		<div class="rec-section">
+			<a id="rec-link" class="rec-link"><h1>Recommendations</h1></a>
+			<div class="rec-list js-rec-list">
+				<!-- Results are inserted here	 -->
+				
+				<!-- <div class="result">
+	      			<p class="click-genre">Genre</p>
+	  			</div> -->
 
-  			<!-- Sample to play with. are inserted here	 -->
+	  			<!-- Sample to play with. are inserted here	 -->
+			</div>
+			<div class="update-results">
+				<!-- Update visibility and links of these buttons regularly	 -->
+		    	<a href="" class="previous"><- Previous</a>
+		    	<a href="" class="next">Next -></a>
+			</div>
+			<a href="#search-title">
+	    		<button type="button">Search</button>
+	   		</a>
+	   		<a href="#chosen-link">
+	    		<button type="button">Your List</button>
+	   		</a>
 		</div>
-		<div class="update-results">
-			<!-- Update visibility and links of these buttons regularly	 -->
-	    	<a href="" class="previous"><- Previous</a>
-	    	<a href="" class="next">Next -></a>
+		<div class="chosen-section">
+			<a id="chosen-link" class="chosen-link"><h1>Your List</h1></a>
+			<div class="chosen-list js-chosen-list">
+				<!-- Chosen elements are inserted here	 -->
+			</div>
+			<a href="#search-title">
+	    		<button type="button">Search</button>
+	   		</a>
+	   		<a href="#rec-link">
+	    		<button type="button">Recommendations</button>
+	   		</a>
 		</div>
-		<a href="#search-title">
-    		<button type="button">Search</button>
-   		</a>
-   		<a href="#chosen-link">
-    		<button type="button">Your List</button>
-   		</a>
-	</div>
-	<div class="chosen-section">
-		<a id="chosen-link" class="chosen-link"><h1>Your List</h1></a>
-		<div class="chosen-list js-chosen-list">
-			<!-- Chosen elements are inserted here	 -->
-		</div>
-		<a href="#search-title">
-    		<button type="button">Search</button>
-   		</a>
-   		<a href="#rec-link">
-    		<button type="button">Recommendations</button>
-   		</a>
-	</div>
 	</main>
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 	<script type="text/javascript" src="app.js"></script>

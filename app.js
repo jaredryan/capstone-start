@@ -1,6 +1,6 @@
 var RESULT_HTML_TEMPLATE = (
   '<div class="result">' +
-      '<div class="row tooltip">' + 
+      '<div class="row">' + 
           '<img class="js-result-image result-image" src="" alt="Awesome Movie Poster">' + 
       '</div>' + 
 
@@ -21,25 +21,55 @@ var RESULT_HTML_TEMPLATE = (
           '<p class="js-netflix netflix tooltip">Genre<span class="tooltip-text">Genre</span></p>' +
         '</div>'+
         '<div class="category-2">'+
-          '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip">Detals</span></p>' +
+          '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip">Details</span></p>' +
         '</div>'+
       '</div>' +
 
       '<div class="row">' + 
-        '<button class="js-add add">Add to List?</button>' + 
+        '<button type="button" class="js-add add">Add to List?</button>' + 
       '</div>' +
 
   '</div>'
 );
 
 var state = {
-  wish_list : []
+  wish_list : [],
+  rec_list : []
 };
 
 function addToWishList(state, item) {
-  state.wish_list.push(item);
+  // createCopy
+  var template = $(RESULT_HTML_TEMPLATE);
+  var string = item.find(".js-result-image").attr("src");
+  template.find(".js-result-image").attr("src", string);
+  var summary = item.find('.summary-tooltip').val();
+  template.find('.summary-tooltip').html(summary);
+  var details = item.find('.detail-tooltip').val();
+  template.find('.detail-tooltip').html(details);
+
+  // Change add button to remove button
+  target = template.find('.js-add');
+  target.text("Remove");
+  target.addClass("js-remove");
+  target.addClass("remove");
+  target.removeClass("add");
+  target.removeClass("js-add");
+
+
+
+  // Add to List
+  state.wish_list.push(template);
 }
 
+function addToRecList(state, item) {
+  state.rec_list.push(item);
+}
+
+
+function removeFromWishList(state, item) {
+  var index = state.wish_list.indexOf(item);
+  state.wish_list.splice(index, 1);
+}
 
 // function getDataFromKeywordApi(searchTerm, callback) {
 //   var query = {
@@ -75,9 +105,16 @@ function getDataFromApi(searchTerm, callback) {
 //   $.getJSON(NETFLIX_SEARCH_URL, query, callback);
 // }
 
+function displaySearchData(data) {
+  var results = data.results.map(function(item) {
+     renderResult(state, item);
+  });
+  renderRecList(state);
+}
 
 
-function renderResult(result) {
+
+function renderResult(state, result) {
   var template = $(RESULT_HTML_TEMPLATE);
   // Movie Poster
   if (result.poster_path !== null) {
@@ -93,8 +130,9 @@ function renderResult(result) {
   var details = "<span>Popularity: " + result.popularity + "</span><br>" + 
                 "<span>Release: " + result.release_date + "</span><br>";
   template.find('.detail-tooltip').html(details);
+  addToRecList(state, template);
 
-  return template;
+  // return template;
 }
 
 function renderWishList(state) {
@@ -104,13 +142,15 @@ function renderWishList(state) {
   $('.js-chosen-list').html(results);
 }
 
-// Done
-function displaySearchData(data) {
-  var results = data.results.map(function(item) {
-     return renderResult(item);
+function renderRecList(state) {
+  var results = state.rec_list.map(function(item) {
+     return item;
   });
   $('.js-rec-list').html(results);
 }
+
+// Done
+
 
 
 // This is fine
@@ -148,11 +188,21 @@ function watchSearch() {
 }
 
 function watchAddtoList(state) {
-  $('.js-add').click(function(event) {
-    console.log(event);
+  $('.js-rec-list').on('click', '.js-add', function(event) {
+    // console.log(event);
     var target = $(this).parent().parent();
-    console.log(target);
+    // console.log(target);
     addToWishList(state, target);
+    renderWishList(state);
+  });
+}
+
+function watchRemoveFromList(state) {
+  $('.js-rec-list').on('click', '.js-remove', function(event) {
+    // console.log(event);
+    var target = $(this).parent().parent();
+    // console.log(target);
+    removeFromWishList(state, target);
     renderWishList(state);
   });
 }
@@ -161,6 +211,7 @@ function watchAddtoList(state) {
 $(function() {
   watchSearch();
   watchAddtoList(state);
+  watchRemoveFromList(state);
   // watchClick();
   // watchDirector();
   // watchKeyword();
