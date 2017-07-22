@@ -110,14 +110,15 @@ button:hover {
 	height: 300px;
 }
 
-.tooltip .tooltip-text {
+.tooltip .tooltip-text, .image-tooltip {
     visibility: hidden;
     width: 120px;
     background-color: black;
     color: #fff;
-    text-align: center;
+    text-align: left;
     border-radius: 6px;
     padding: 5px 0;
+    font-size: 12px;
 
     /* Position the tooltip */
     position: absolute;
@@ -126,4 +127,8 @@ button:hover {
 
 .tooltip:hover .tooltip-text {
     visibility: visible;
+}
+
+.add {
+	width: 100%;
 }

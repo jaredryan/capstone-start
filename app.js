@@ -1,12 +1,12 @@
 var RESULT_HTML_TEMPLATE = (
   '<div class="result">' +
-      '<div class="row">' + 
-        '<img class="js-result-image result-image" src="" alt="Awesome Movie Poster">' + 
+      '<div class="row tooltip">' + 
+          '<img class="js-result-image result-image" src="" alt="Awesome Movie Poster">' + 
       '</div>' + 
 
       '<div class="row">' + 
         '<div class="category">'+
-          '<p class="js-summary summary tooltip">Summary<span class="tooltip-text summary-tooltip">Summary<br>Your mom</span></p>' + 
+          '<p class="js-summary summary tooltip">Summary<span class="tooltip-text summary-tooltip"></span></p>' + 
         '</div>'+
         '<div class="category">'+
           '<p class="js-genre genre tooltip">Netflix<span class="tooltip-text">Netflix</span></p>' + 
@@ -25,8 +25,20 @@ var RESULT_HTML_TEMPLATE = (
         '</div>'+
       '</div>' +
 
+      '<div class="row">' + 
+        '<button class="js-add add">Add to List?</button>' + 
+      '</div>' +
+
   '</div>'
 );
+
+var state = {
+  wish_list : []
+};
+
+function addToWishList(state, item) {
+  state.wish_list.push(item);
+}
 
 
 // function getDataFromKeywordApi(searchTerm, callback) {
@@ -85,6 +97,13 @@ function renderResult(result) {
   return template;
 }
 
+function renderWishList(state) {
+  var results = state.wish_list.map(function(item) {
+     return item;
+  });
+  $('.js-chosen-list').html(results);
+}
+
 // Done
 function displaySearchData(data) {
   var results = data.results.map(function(item) {
@@ -128,13 +147,23 @@ function watchSearch() {
   });
 }
 
+function watchAddtoList(state) {
+  $('.js-add').click(function(event) {
+    console.log(event);
+    var target = $(this).parent().parent();
+    console.log(target);
+    addToWishList(state, target);
+    renderWishList(state);
+  });
+}
+
 // This is also fine
 $(function() {
-  // watchClick();
   watchSearch();
+  watchAddtoList(state);
+  // watchClick();
   // watchDirector();
   // watchKeyword();
-  // watchAddtoList();
 
   // Need to do something that will activate the jumping mechanism?
   // Need to do something to watch for Previous and Next
