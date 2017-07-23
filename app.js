@@ -305,7 +305,6 @@ function watchAddtoList(state) {
 
 function watchRemoveFromList(state) {
   $('.js-chosen-list').on('click', '.js-remove', function(event) {
-    console.log(event);
     var target = $(this).parent().parent();
     // console.log(target);
     removeFromWishList(state, target);
@@ -334,6 +333,13 @@ function watchConfused(state) {
   });
 }
 
+function watchClear(state) {
+  $('.js-clear').click(function(event) {
+    state.wish_list = [];
+    renderWishList(state);
+  });
+}
+
 // This is also fine
 $(function() {
   watchSearchMovie();
@@ -342,6 +348,7 @@ $(function() {
   watchRemoveFromList(state);
   watchStart();
   watchConfused();
+  watchClear(state);
   // watchClick();
   // watchDirector();
   // watchKeyword();
