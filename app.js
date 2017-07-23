@@ -87,14 +87,30 @@ function removeFromWishList(state, item) {
 //   $.getJSON(NETFLIX_SEARCH_URL, query, callback);
 // }
 
-function getDataFromApi(searchTerm, callback) {
+function getMovieFromApi(searchTerm, callback) {
+  stringUrl = "https://api.themoviedb.org/3/search/movie";
   var query = {
     query: searchTerm,
     api_key: "89ac11ce0fa4d53d4c4df236630139ab"
     // Insert relevant parameters here
   };
   $.ajax({
-    url: "https://api.themoviedb.org/3/search/movie", 
+    url: stringUrl, 
+    data: query, 
+    dataType: "jsonp",
+    success: callback
+  });
+}
+
+function getTVFromApi(searchTerm, callback) {
+  stringUrl = "https://api.themoviedb.org/3/search/tv";
+  var query = {
+    query: searchTerm,
+    api_key: "89ac11ce0fa4d53d4c4df236630139ab"
+    // Insert relevant parameters here
+  };
+  $.ajax({
+    url: stringUrl, 
     data: query, 
     dataType: "jsonp",
     success: callback
@@ -247,14 +263,33 @@ function renderRecList(state) {
 //   });
 // }
 
-function watchSearch() {
-  $('.search-button').click(function(event) {
+function watchSearchMovie() {
+  $('.search-movie').click(function(event) {
+    var movieFlag = "true";
     var queryTarget = $('.js-query');
     var query = queryTarget.val();
+    if (query === "") {
+      return;
+    }
     // clear out the input
     queryTarget.val("");
     // ALL OF THE ABOVE WILL REMAIN THE SAME
-    getDataFromApi(query, displaySearchData);
+    getMovieFromApi(query, displaySearchData);
+  });
+}
+
+function watchSearchTV() {
+  $('.search-tv').click(function(event) {
+    var tvFlag = "false";
+    var queryTarget = $('.js-query');
+    var query = queryTarget.val();
+    if (query === "") {
+      return;
+    }
+    // clear out the input
+    queryTarget.val("");
+    // ALL OF THE ABOVE WILL REMAIN THE SAME
+    getTVFromApi(query, displaySearchData);
   });
 }
 
@@ -301,7 +336,8 @@ function watchConfused(state) {
 
 // This is also fine
 $(function() {
-  watchSearch();
+  watchSearchMovie();
+  watchSearchTV();
   watchAddtoList(state);
   watchRemoveFromList(state);
   watchStart();

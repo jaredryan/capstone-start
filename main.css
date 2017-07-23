@@ -10,6 +10,10 @@ header, body {
 	text-align: center;
 }
 
+a {
+	text-decoration: none;
+}
+
 .search {
 	width: 400px;
 	height: 35px;
@@ -54,8 +58,14 @@ button:hover {
 	text-decoration: underline;
 }*/
 
-.search-button {
-	width: 100px;
+.search-tv, .search-movie {
+	width: 200px;
+	margin-bottom: 80px;
+	border: 2px solid rgb(0,0,140);
+}
+
+.search-tv:hover, .search-movie:hover {
+	border: 2px solid rgb(0,0,255);
 }
 
 .rec-list {
