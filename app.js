@@ -77,6 +77,16 @@ function removeFromWishList(state, item) {
   state.wish_list.splice(index, 1);
 }
 
+function clearWishState(state) {
+  state.wish_list = [];
+  renderWishList(state);
+}
+
+function clearRecState(state) {
+  state.rec_list = [];
+  renderRecList(state);
+}
+
 // function getDataFromKeywordApi(searchTerm, callback) {
 //   var query = {
 //     q: searchTerm,
@@ -265,6 +275,7 @@ function renderRecList(state) {
 
 function watchSearchMovie() {
   $('.search-movie').click(function(event) {
+    clearRecState(state);
     var movieFlag = "true";
     var queryTarget = $('.js-query');
     var query = queryTarget.val();
@@ -280,6 +291,7 @@ function watchSearchMovie() {
 
 function watchSearchTV() {
   $('.search-tv').click(function(event) {
+    clearRecState(state);
     var tvFlag = "false";
     var queryTarget = $('.js-query');
     var query = queryTarget.val();
@@ -335,8 +347,13 @@ function watchConfused(state) {
 
 function watchClear(state) {
   $('.js-clear').click(function(event) {
-    state.wish_list = [];
-    renderWishList(state);
+    clearWishState(state);
+  });
+}
+
+function watchNewSearch(state) {
+  $('.new-search').click(function(event) {
+    clearRecState(state);
   });
 }
 
@@ -349,6 +366,7 @@ $(function() {
   watchStart();
   watchConfused();
   watchClear(state);
+  watchNewSearch(state);
   // watchClick();
   // watchDirector();
   // watchKeyword();
