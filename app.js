@@ -9,19 +9,19 @@ var RESULT_HTML_TEMPLATE = (
           '<p class="js-summary summary tooltip">Summary<span class="tooltip-text summary-tooltip"></span></p>' + 
         '</div>'+
         '<div class="category">'+
-          '<p class="js-genre genre tooltip">Netflix<span class="tooltip-text">Netflix</span></p>' + 
+          '<p class="js-netflix netflix tooltip">Netflix<span class="tooltip-text netflix-tooltip">Not on Netflix Roulette</span></p>' + 
         '</div>'+
       '</div>'+
 
       '<div class="row">' + 
         '<div class="category-2">'+
-          '<p class="js-cast cast tooltip">Cast<span class="tooltip-text">Cast</span></p>' + 
+          '<p class="js-cast cast tooltip">Cast<span class="tooltip-text cast-tooltip"></span></p>' + 
         '</div>'+
         '<div class="category-2">'+
-          '<p class="js-netflix netflix tooltip">Genre<span class="tooltip-text">Genre</span></p>' +
+          '<p class="js-genre genre tooltip">Genre<span class="tooltip-text genre-tooltip"></span></p>' +
         '</div>'+
         '<div class="category-2">'+
-          '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip">Details</span></p>' +
+          '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip"></span></p>' +
         '</div>'+
       '</div>' +
 
@@ -92,7 +92,7 @@ function getDataFromApi(searchTerm, callback) {
     query: searchTerm,
     api_key: "89ac11ce0fa4d53d4c4df236630139ab"
     // Insert relevant parameters here
-  }
+  };
   $.ajax({
     url: "https://api.themoviedb.org/3/search/movie", 
     data: query, 
@@ -118,6 +118,61 @@ function displaySearchData(data) {
   renderRecList(state);
 }
 
+function getDataFromNetflix(template, searchTitle, callback) {
+  // https://netflixroulette.net/api/api.php
+  var query = {
+    title: searchTitle,
+    data: 1
+  };
+  $.getJSON("https://netflixroulette.net/api/api.php", query, callback);
+}
+
+function displayNetflixData(data, template) {
+  var ratingString = "On Netflix Roulette\nRating: ";
+  if (data.rating !== null) {
+    ratingString += data.rating;
+  } else {
+    ratingString += "Unregistered"
+  }
+  template.find('.netflix-tooltip').text(ratingString);
+}
+
+function getMoreDetails(template, movieID, callback) {
+  var query = {
+    api_key: "89ac11ce0fa4d53d4c4df236630139ab"
+    // Insert relevant parameters here
+  }
+  $.ajax({
+    url: "https://api.themoviedb.org/3/movie/" + movieID, 
+    data: query, 
+    dataType: "jsonp",
+    success: callback
+  });
+}
+
+function displayTitleData(data, template) {
+
+  var string = '';
+  if (data.genres !== null) {
+    data.genres.map(function(item) {
+      string += item.name + ", ";
+    });
+    string = string.slice(0, -2);
+  }
+
+  var genre = "<span>Genres: " + string + "</span>";
+  template.find('.genre-tooltip').html(genre);
+
+  var newDetail;
+  if (data.runtime !== null && data.runtime !== 0) {
+    newDetail = "Runtime: " + data.runtime + " min";
+  } else {
+    newDetail = "Runtime: Not Registered";
+  }
+  var detailString = template.find('.detail-tooltip').text();
+  template.find('.detail-tooltip').text(detailString + newDetail);
+  
+}
 
 
 function renderResult(state, result) {
@@ -133,12 +188,22 @@ function renderResult(state, result) {
                 "<span>" + result.overview + "</span><br>";
   template.find('.summary-tooltip').html(summary);
   // Skip Genre for now
-  var details = "<span>Popularity: " + result.popularity + "</span><br>" + 
-                "<span>Release: " + result.release_date + "</span><br>";
+  var details = "<span>Popularity: " + result.popularity + "\n</span>" + 
+                "<span>Release: " + result.release_date + "\n</span>";
   template.find('.detail-tooltip').html(details);
-  addToRecList(state, template);
 
-  // return template;
+
+  var receiveTitleData = function(data) {
+    displayTitleData(data, template);
+  };
+
+  var receiveNetflixData = function(data) {
+    displayNetflixData(data, template);
+  };
+
+  getDataFromNetflix(template, result.title, receiveNetflixData);
+  getMoreDetails(template, result.id, receiveTitleData);
+  addToRecList(state, template);
 }
 
 function renderWishList(state) {
