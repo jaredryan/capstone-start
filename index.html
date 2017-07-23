@@ -10,7 +10,17 @@
 <header>
 	<a id="search-title"><h1>MovieRecs</h1></a>
 	<h3>Looking for new recommendations? Start your search here.</h3>
-	<form action="#" class="js-search-form">
+	<div class="explanation">
+		<h3>How it works:</h3>
+		<p>1. Enter a keyword.</p>
+		<p>2. Select a category to search in.</p>
+		<p>3. Search</p>
+		<p>4. If you like what you see, click <b>Add to List</b>.</p>
+		<p>5. When you are done, click on <b>Go to Your List</b> to see your choices.</p>
+		<button type="button" class="start-button js-start-button">Start!</button>
+	</div>
+
+	<form action="#" class="js-search-form hidden">
 		<div class="search-bar">
 	        <input type="text" class="js-query search" 
 	         	   placeholder="Movie, genre, actor/actress...">
@@ -26,8 +36,9 @@
         </a> -->
         <!-- <br> -->
     </form>
-    <a href="#chosen-link">
-    	<button type="button">Your List</button>
+    <button type="button" class="confused js-confused hidden">Confused?</button>
+    <a href="#chosen-link" class="hidden your-list">
+    	<button type="button">Go to Your List</button>
    	</a>
 </header>
 <body>
@@ -52,11 +63,11 @@
 	    		<button type="button">Search</button>
 	   		</a>
 	   		<a href="#chosen-link">
-	    		<button type="button">Your List</button>
+	    		<button type="button">Go to Your List</button>
 	   		</a>
 		</div>
 		<div class="chosen-section">
-			<a id="chosen-link" class="chosen-link"><h1>Your List</h1></a>
+			<a id="chosen-link" class="chosen-link"><h1>Go to Your List</h1></a>
 			<div class="chosen-list js-chosen-list">
 				<!-- Chosen elements are inserted here	 -->
 			</div>

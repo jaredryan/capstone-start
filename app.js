@@ -26,7 +26,12 @@ var RESULT_HTML_TEMPLATE = (
       '</div>' +
 
       '<div class="row">' + 
-        '<button type="button" class="js-add add">Add to List?</button>' + 
+        '<button type="button" class="js-add add">Add to List</button>' +
+        '<div class="go-button">' + 
+          '<a href="#chosen-link" class="js-go go">' +
+            '<button type="button go-list">Go to Your List</button>' + 
+          '</a>' +
+        '</div>' +
       '</div>' +
 
   '</div>'
@@ -54,6 +59,7 @@ function addToWishList(state, item) {
   target.addClass("remove");
   target.removeClass("add");
   target.removeClass("js-add");
+  template.find(".js-go").addClass('hidden');
 
 
 
@@ -198,12 +204,33 @@ function watchAddtoList(state) {
 }
 
 function watchRemoveFromList(state) {
-  $('.js-rec-list').on('click', '.js-remove', function(event) {
-    // console.log(event);
+  $('.js-chosen-list').on('click', '.js-remove', function(event) {
+    console.log(event);
     var target = $(this).parent().parent();
     // console.log(target);
     removeFromWishList(state, target);
     renderWishList(state);
+  });
+}
+
+function watchStart(state) {
+  $('.explanation').on('click', '.js-start-button', function(event) {
+    $(this).addClass('hidden');
+    $('.explanation').addClass('hidden');
+    $('.js-search-form').removeClass('hidden');
+    $('.js-confused').removeClass('hidden');
+    $('.your-list').removeClass('hidden');
+  });
+}
+
+function watchConfused(state) {
+  $('header').on('click', '.js-confused', function(event) {
+    $(this).addClass('hidden');
+    $('.explanation').removeClass('hidden');
+    $('.js-start-button').removeClass('hidden');
+    $('.js-search-form').addClass('hidden');
+    $('.js-confused').addClass('hidden');
+    $('.your-list').addClass('hidden');
   });
 }
 
@@ -212,6 +239,8 @@ $(function() {
   watchSearch();
   watchAddtoList(state);
   watchRemoveFromList(state);
+  watchStart();
+  watchConfused();
   // watchClick();
   // watchDirector();
   // watchKeyword();
