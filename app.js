@@ -43,6 +43,47 @@ var RESULT_HTML_TEMPLATE = (
   '</div>'
 );
 
+var WISH_HTML_TEMPLATE = (
+  '<div class="result">' +
+      '<div class="row">' + 
+          '<img class="js-result-image result-image" src="" alt="Awesome Movie Poster">' + 
+      '</div>' + 
+
+      '<div class="row">' + 
+        '<div class="category">'+
+          '<p class="js-summary summary tooltip">Summary<span class="tooltip-text summary-tooltip">Summary: \nNot registered</span></p>' + 
+        '</div>'+
+        '<div class="category">'+
+          '<p class="js-netflix netflix tooltip">Netflix<span class="tooltip-text netflix-tooltip">Not on Netflix Roulette</span></p>' + 
+        '</div>'+
+      '</div>'+
+
+      '<div class="row">' + 
+        '<div class="category-2">'+
+          '<p class="js-similar similar tooltip">Similar<span class="tooltip-text similar-tooltip">Similar Movies: \nUndetermined</span></p>' + 
+        '</div>'+
+        '<div class="category-2">'+
+          '<p class="js-genre genre tooltip">Genre<span class="tooltip-text genre-tooltip">Genre: \nNot registered</span></p>' +
+        '</div>'+
+        '<div class="category-2">'+
+          '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip">Details: \nNot registered</span></p>' +
+        '</div>'+
+      '</div>' +
+
+      '<div class="row">' + 
+        '<div class="category-3">'+
+          '<p class="js-recommend recommend tooltip">Other Recommendations<span class="tooltip-text recommended-tooltip">Recommended Movies: \nUndetermined</span></p>' + 
+        '</div>'+
+      '</div>' +
+
+      '<div class="row">' + 
+        '<button type="button" class="js-remove remove">Remove</button>' +
+      '</div>' +
+
+  '</div>'
+);
+
+// Good?
 var state = {
   wish_list : [],
   rec_list : [],
@@ -53,104 +94,110 @@ var state = {
   type: ""
 };
 
+// Good
 function addToWishList(state, item) {
-  // Create a copy
-  var template = $(RESULT_HTML_TEMPLATE);
-  var string = item.find(".js-result-image").attr("src");
-  template.find(".js-result-image").attr("src", string);
+  // Create a copy with template and changing attributes as needed
+  var template = $(WISH_HTML_TEMPLATE);
+
+  var image = item.find(".js-result-image").attr("src");
   var summary = item.find('.summary-tooltip').val();
-  template.find('.summary-tooltip').html(summary);
+  var netflix = item.find('.netflix-tooltip').val();
+  var similar = item.find('.similar-tooltip').val();
+  var genre = item.find('.genre-tooltip').val();
   var details = item.find('.detail-tooltip').val();
+  var otherRecs = item.find('.recommended-tooltip').val();
+
+  template.find(".js-result-image").attr("src", image);
+  template.find('.summary-tooltip').html(summary);
+  template.find('.netflix-tooltip').html(netflix);
+  template.find('.similar-tooltip').html(similar);
+  template.find('.genre-tooltip').html(genre);
   template.find('.detail-tooltip').html(details);
+  template.find('.recommended-tooltip').html(otherRecs);
 
-  // Change buttons as appropriate
-  target = template.find('.js-add');
-  target.text("Remove");
-  target.addClass("js-remove");
-  target.addClass("remove");
-  target.removeClass("add");
-  target.removeClass("js-add");
-  template.find(".js-go").addClass('hidden');
-
-
-
-  // Add to List
+  // Add to State List
   state.wish_list.push(template);
 }
 
+// Good
 function addToRecList(state, item) {
   state.rec_list.push(item);
 }
 
-
+// Good
 function removeFromWishList(state, item) {
   var index = state.wish_list.indexOf(item);
   state.wish_list.splice(index, 1);
 }
 
+// Good
 function clearWishState(state) {
   state.wish_list = [];
-  renderWishList(state);
 }
 
+// Good
 function clearRecState(state) {
+  state.page_num = 1;
+  state.last_page = 1;
+  state.last_url = "";
+  state.last_query = null;
+  state.type = "";
+};
+
+// Good
+function clearRecList(state) {
   state.rec_list = [];
-  renderRecList(state);
-  renderNextPrevButtons(state);
 }
 
-// function getDataFromKeywordApi(searchTerm, callback) {
-//   var query = {
-//     q: searchTerm,
-//     info: 1,
-//     k: "277746-TasteTex-TMP1RQ9L"
+
+
+
+
+// Bad
+var getDataFromApi = function(searchTerm, state, type) {
+  state.last_url = "https://api.themoviedb.org/3/search/" + type;
+  state.last_query = {
+    query: searchTerm,
+    api_key: "89ac11ce0fa4d53d4c4df236630139ab",
+    page : state.page_num,
+    // Insert relevant parameters here
+  };
+
+  var toCallback = function(data) {
+    displaySearchData(data, state);
+  };
+
+  $.ajax({
+    url: state.last_url, 
+    data: state.last_query, 
+    dataType: "jsonp",
+    success: toCallback
+  });
+};
+
+// Bad
+// function getTVFromApi(searchTerm, state) {
+//   state.last_url = "https://api.themoviedb.org/3/search/tv";
+//   state.last_query = {
+//     query: searchTerm,
+//     api_key: "89ac11ce0fa4d53d4c4df236630139ab",
+//     page : state.page_num,
 //     // Insert relevant parameters here
-//   }
-//   $.getJSON(NETFLIX_SEARCH_URL, query, callback);
+//   };
+
+//   var toCallback = function(data) {
+//     displaySearchData(data, state);
+//   };
+
+//   $.ajax({
+//     url: state.last_url, 
+//     data: state.last_query, 
+//     dataType: "jsonp",
+//     success: toCallback
+//   });
 // }
 
-function getMovieFromApi(searchTerm, state) {
-  state.last_url = "https://api.themoviedb.org/3/search/movie";
-  state.last_query = {
-    query: searchTerm,
-    api_key: "89ac11ce0fa4d53d4c4df236630139ab",
-    page : state.page_num,
-    // Insert relevant parameters here
-  };
-
-  var toCallback = function(data) {
-    displaySearchData(data, state);
-  };
-
-  $.ajax({
-    url: state.last_url, 
-    data: state.last_query, 
-    dataType: "jsonp",
-    success: toCallback
-  });
-}
-
-function getTVFromApi(searchTerm, state) {
-  state.last_url = "https://api.themoviedb.org/3/search/tv";
-  state.last_query = {
-    query: searchTerm,
-    api_key: "89ac11ce0fa4d53d4c4df236630139ab",
-    page : state.page_num,
-    // Insert relevant parameters here
-  };
-
-  var toCallback = function(data) {
-    displaySearchData(data, state);
-  };
-
-  $.ajax({
-    url: state.last_url, 
-    data: state.last_query, 
-    dataType: "jsonp",
-    success: toCallback
-  });
-}
-
+// Bad
 function getNewPageFromApi(state) {
 
   var toCallback = function(data) {
@@ -165,25 +212,16 @@ function getNewPageFromApi(state) {
   });
 }
 
-// function getDataFromDirectorApi(searchTerm, callback) {
-//   var query = {
-//     q: searchTerm,
-//     info: 1,
-//     k: "277746-TasteTex-TMP1RQ9L"
-//     // Insert relevant parameters here
-//   }
-//   $.getJSON(NETFLIX_SEARCH_URL, query, callback);
-// }
-
+// Bad
 function displaySearchData(data, state) {
   state.last_page = data.total_pages;
   var results = data.results.map(function(item) {
      renderResult(state, item);
   });
   renderRecList(state);
-  renderNextPrevButtons(state);
 }
 
+// Bad
 function getDataFromNetflix(template, searchTitle, callback) {
   // https://netflixroulette.net/api/api.php
   var query = {
@@ -193,6 +231,7 @@ function getDataFromNetflix(template, searchTitle, callback) {
   $.getJSON("https://netflixroulette.net/api/api.php", query, callback);
 }
 
+// Bad
 function displayNetflixData(data, template) {
   var ratingString = "On Netflix Roulette\nRating: ";
   if (data.rating !== null) {
@@ -203,8 +242,7 @@ function displayNetflixData(data, template) {
   template.find('.netflix-tooltip').text(ratingString);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// Bad
 function getSimilarTitles(template, movieID, callback, state) {
   var query = {
     api_key: "89ac11ce0fa4d53d4c4df236630139ab"
@@ -220,9 +258,8 @@ function getSimilarTitles(template, movieID, callback, state) {
   });
 }
 
+// Bad
 function displaySimilarData(data, template) {
-
-  // alter as needed
   var string = '';
   if (data.results !== null) {
       data.results.map(function(item) {
@@ -236,10 +273,7 @@ function displaySimilarData(data, template) {
   } 
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// Bad
 function getRecommendedTitles(template, movieID, callback, state) {
   var query = {
     api_key: "89ac11ce0fa4d53d4c4df236630139ab"
@@ -255,6 +289,8 @@ function getRecommendedTitles(template, movieID, callback, state) {
   });
 }
 
+
+// Bad
 function displayRecommendedData(data, template) {
 
   // alter as needed
@@ -273,8 +309,7 @@ function displayRecommendedData(data, template) {
   } 
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// Bad
 function getMoreDetails(template, movieID, callback, state) {
   var query = {
     api_key: "89ac11ce0fa4d53d4c4df236630139ab"
@@ -290,6 +325,7 @@ function getMoreDetails(template, movieID, callback, state) {
   });
 }
 
+// Bad
 function displayTitleData(data, template) {
 
   var string = '';
@@ -315,7 +351,7 @@ function displayTitleData(data, template) {
   
 }
 
-
+// So very ugly
 function renderResult(state, result) {
   var template = $(RESULT_HTML_TEMPLATE);
   // Movie Poster
@@ -358,6 +394,8 @@ function renderResult(state, result) {
   addToRecList(state, template);
 }
 
+
+// GOOD
 function renderWishList(state) {
   var results = state.wish_list.map(function(item) {
      return item;
@@ -365,14 +403,15 @@ function renderWishList(state) {
   $('.js-chosen-list').html(results);
 }
 
+// Good
 function renderRecList(state) {
+  // Render Items
   var results = state.rec_list.map(function(item) {
      return item;
   });
   $('.js-rec-list').html(results);
-}
 
-function renderNextPrevButtons(state) {
+  // Render Prev and Next
   if (state.page_num < state.last_page) {
     $('.next').removeClass("hidden");
   } else {
@@ -386,37 +425,14 @@ function renderNextPrevButtons(state) {
   }
 }
 
-// Done
 
-
-
-// This is fine
-// function watchKeyword() {
-//   $('.keyword').click(function(event) {
-//     var queryTarget = $('.js-query');
-//     var query = queryTarget.val();
-//     // clear out the input
-//     queryTarget.val("");
-//     // ALL OF THE ABOVE WILL REMAIN THE SAME
-//     getDataFromKeywordApi(query, displaySearchData);
-//   });
-// }
-
-// function watchDirector() {
-//   $('.director').click(function(event) {
-//     var queryTarget = $('.js-query');
-//     var query = queryTarget.val();
-//     // clear out the input
-//     queryTarget.val("");
-//     // ALL OF THE ABOVE WILL REMAIN THE SAME
-//     getDataFromDirectorApi(query, displaySearchData);
-//   });
-// }
-
+// Bad
 function watchSearchMovie(state) {
   $('.search-movie').click(function(event) {
     state.type = "movie";
     clearRecState(state);
+    clearRecList(state);
+    renderRecList(state);
     var queryTarget = $('.js-query');
     var query = queryTarget.val();
     if (query === "") {
@@ -429,14 +445,17 @@ function watchSearchMovie(state) {
     queryTarget.val("");
 
     // ALL OF THE ABOVE WILL REMAIN THE SAME
-    getMovieFromApi(query, state);
+    getDataFromApi(query, state, "movie");
   });
 }
 
+// Bad
 function watchSearchTV(state) {
   $('.search-tv').click(function(event) {
     state.type = "tv";
     clearRecState(state);
+    clearRecList(state);
+    renderRecList(state);
     var queryTarget = $('.js-query');
     var query = queryTarget.val();
     if (query === "") {
@@ -448,10 +467,13 @@ function watchSearchTV(state) {
     // clear out the input
     queryTarget.val("");
     // ALL OF THE ABOVE WILL REMAIN THE SAME
-    getTVFromApi(query, state);
+    getDataFromApi(query, state, "tv");
   });
 }
 
+
+
+// Good
 function watchAddtoList(state) {
   $('.js-rec-list').on('click', '.js-add', function(event) {
     var target = $(this).parent().parent();
@@ -460,6 +482,7 @@ function watchAddtoList(state) {
   });
 }
 
+// Good
 function watchRemoveFromList(state) {
   $('.js-chosen-list').on('click', '.js-remove', function(event) {
     var target = $(this).parent().parent();
@@ -468,6 +491,7 @@ function watchRemoveFromList(state) {
   });
 }
 
+// For the more static introduction elements, this works.
 function watchStart(state) {
   $('.explanation').on('click', '.js-start-button', function(event) {
     $(this).addClass('hidden');
@@ -478,6 +502,7 @@ function watchStart(state) {
   });
 }
 
+// For the more static introduction elements, this works.
 function watchConfused(state) {
   $('header').on('click', '.js-confused', function(event) {
     $(this).addClass('hidden');
@@ -489,40 +514,46 @@ function watchConfused(state) {
   });
 }
 
+// Good
 function watchClear(state) {
   $('.js-clear').click(function(event) {
     clearWishState(state);
+    renderWishList(state);
   });
 }
 
+// Fix
 function watchNext(state) {
   $('.next').click(function(event) {
     state.page_num += 1;
     state.last_query.page += 1;
-    clearRecState(state);
+    clearRecList(state);
+    renderRecList(state); // seems wrong
     getNewPageFromApi(state);
   });
 }
 
+// Fix
 function watchPrevious(state) {
   $('.previous').click(function(event) {
     state.page_num -= 1;
     state.last_query.page -= 1;
-    clearRecState(state);
+    clearRecList(state);
+    renderRecList(state); // Seems wrong
     getNewPageFromApi(state);
   });
 }
 
-
-
-
+// Good
 function watchNewSearch(state) {
   $('.new-search').click(function(event) {
     clearRecState(state);
+    clearRecList(state);
+    renderRecList(state);
   });
 }
 
-// This is also fine
+// Good?
 $(function() {
   watchSearchMovie(state);
   watchSearchTV(state);
