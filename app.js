@@ -6,7 +6,7 @@ var RESULT_HTML_TEMPLATE = (
 
       '<div class="row">' + 
         '<div class="category">'+
-          '<p class="js-summary summary tooltip">Summary<span class="tooltip-text summary-tooltip"></span></p>' + 
+          '<p class="js-summary summary tooltip">Summary<span class="tooltip-text summary-tooltip">Summary: \nNot registered</span></p>' + 
         '</div>'+
         '<div class="category">'+
           '<p class="js-netflix netflix tooltip">Netflix<span class="tooltip-text netflix-tooltip">Not on Netflix Roulette</span></p>' + 
@@ -15,13 +15,19 @@ var RESULT_HTML_TEMPLATE = (
 
       '<div class="row">' + 
         '<div class="category-2">'+
-          '<p class="js-cast cast tooltip">Cast<span class="tooltip-text cast-tooltip"></span></p>' + 
+          '<p class="js-similar similar tooltip">Similar<span class="tooltip-text similar-tooltip">Similar Movies: \nUndetermined</span></p>' + 
         '</div>'+
         '<div class="category-2">'+
-          '<p class="js-genre genre tooltip">Genre<span class="tooltip-text genre-tooltip"></span></p>' +
+          '<p class="js-genre genre tooltip">Genre<span class="tooltip-text genre-tooltip">Genre: \nNot registered</span></p>' +
         '</div>'+
         '<div class="category-2">'+
-          '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip"></span></p>' +
+          '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip">Details: \nNot registered</span></p>' +
+        '</div>'+
+      '</div>' +
+
+      '<div class="row">' + 
+        '<div class="category-3">'+
+          '<p class="js-recommend recommend tooltip">Other Recommendations<span class="tooltip-text recommended-tooltip">Recommended Movies: \nUndetermined</span></p>' + 
         '</div>'+
       '</div>' +
 
@@ -39,11 +45,16 @@ var RESULT_HTML_TEMPLATE = (
 
 var state = {
   wish_list : [],
-  rec_list : []
+  rec_list : [],
+  page_num: 1,
+  last_page: 1,
+  last_url: "",
+  last_query: null,
+  type: ""
 };
 
 function addToWishList(state, item) {
-  // createCopy
+  // Create a copy
   var template = $(RESULT_HTML_TEMPLATE);
   var string = item.find(".js-result-image").attr("src");
   template.find(".js-result-image").attr("src", string);
@@ -52,7 +63,7 @@ function addToWishList(state, item) {
   var details = item.find('.detail-tooltip').val();
   template.find('.detail-tooltip').html(details);
 
-  // Change add button to remove button
+  // Change buttons as appropriate
   target = template.find('.js-add');
   target.text("Remove");
   target.addClass("js-remove");
@@ -85,6 +96,7 @@ function clearWishState(state) {
 function clearRecState(state) {
   state.rec_list = [];
   renderRecList(state);
+  renderNextPrevButtons(state);
 }
 
 // function getDataFromKeywordApi(searchTerm, callback) {
@@ -97,33 +109,59 @@ function clearRecState(state) {
 //   $.getJSON(NETFLIX_SEARCH_URL, query, callback);
 // }
 
-function getMovieFromApi(searchTerm, callback) {
-  stringUrl = "https://api.themoviedb.org/3/search/movie";
-  var query = {
+function getMovieFromApi(searchTerm, state) {
+  state.last_url = "https://api.themoviedb.org/3/search/movie";
+  state.last_query = {
     query: searchTerm,
-    api_key: "89ac11ce0fa4d53d4c4df236630139ab"
+    api_key: "89ac11ce0fa4d53d4c4df236630139ab",
+    page : state.page_num,
     // Insert relevant parameters here
   };
+
+  var toCallback = function(data) {
+    displaySearchData(data, state);
+  };
+
   $.ajax({
-    url: stringUrl, 
-    data: query, 
+    url: state.last_url, 
+    data: state.last_query, 
     dataType: "jsonp",
-    success: callback
+    success: toCallback
   });
 }
 
-function getTVFromApi(searchTerm, callback) {
-  stringUrl = "https://api.themoviedb.org/3/search/tv";
-  var query = {
+function getTVFromApi(searchTerm, state) {
+  state.last_url = "https://api.themoviedb.org/3/search/tv";
+  state.last_query = {
     query: searchTerm,
-    api_key: "89ac11ce0fa4d53d4c4df236630139ab"
+    api_key: "89ac11ce0fa4d53d4c4df236630139ab",
+    page : state.page_num,
     // Insert relevant parameters here
   };
+
+  var toCallback = function(data) {
+    displaySearchData(data, state);
+  };
+
   $.ajax({
-    url: stringUrl, 
-    data: query, 
+    url: state.last_url, 
+    data: state.last_query, 
     dataType: "jsonp",
-    success: callback
+    success: toCallback
+  });
+}
+
+function getNewPageFromApi(state) {
+
+  var toCallback = function(data) {
+    displaySearchData(data, state);
+  };
+
+  $.ajax({
+    url: state.last_url, 
+    data: state.last_query, 
+    dataType: "jsonp",
+    success: toCallback
   });
 }
 
@@ -137,11 +175,13 @@ function getTVFromApi(searchTerm, callback) {
 //   $.getJSON(NETFLIX_SEARCH_URL, query, callback);
 // }
 
-function displaySearchData(data) {
+function displaySearchData(data, state) {
+  state.last_page = data.total_pages;
   var results = data.results.map(function(item) {
      renderResult(state, item);
   });
   renderRecList(state);
+  renderNextPrevButtons(state);
 }
 
 function getDataFromNetflix(template, searchTitle, callback) {
@@ -163,13 +203,87 @@ function displayNetflixData(data, template) {
   template.find('.netflix-tooltip').text(ratingString);
 }
 
-function getMoreDetails(template, movieID, callback) {
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function getSimilarTitles(template, movieID, callback, state) {
   var query = {
     api_key: "89ac11ce0fa4d53d4c4df236630139ab"
     // Insert relevant parameters here
   }
+  var stringUrl = "https://api.themoviedb.org/3/" + state.type + "/" + movieID + "/similar";
+
   $.ajax({
-    url: "https://api.themoviedb.org/3/movie/" + movieID, 
+    url: stringUrl, 
+    data: query, 
+    dataType: "jsonp",
+    success: callback
+  });
+}
+
+function displaySimilarData(data, template) {
+
+  // alter as needed
+  var string = '';
+  if (data.results !== null) {
+      data.results.map(function(item) {
+        string += item.title + ", ";
+      });
+      string = string.slice(0, -2);
+      var similarString = "<span>Similar Movies: \n" + string + "</span>";
+      if (string !== "") {
+        template.find('.similar-tooltip').html(similarString);
+      }
+  } 
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function getRecommendedTitles(template, movieID, callback, state) {
+  var query = {
+    api_key: "89ac11ce0fa4d53d4c4df236630139ab"
+    // Insert relevant parameters here
+  }
+  var stringUrl = "https://api.themoviedb.org/3/" + state.type + "/" + movieID + "/recommendations";
+
+  $.ajax({
+    url: stringUrl, 
+    data: query, 
+    dataType: "jsonp",
+    success: callback
+  });
+}
+
+function displayRecommendedData(data, template) {
+
+  // alter as needed
+  console.log(data.results);
+  var string = '';
+  if (data.results !== null) {
+      data.results.map(function(item) {
+        string += item.title + ", ";
+      });
+      string = string.slice(0, -2);
+      console.log(string);
+      var similarString = "<span>Recommended Movies: \n" + string + "</span>";
+      if (string !== "") {
+        template.find('.recommended-tooltip').html(similarString);
+      }
+  } 
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function getMoreDetails(template, movieID, callback, state) {
+  var query = {
+    api_key: "89ac11ce0fa4d53d4c4df236630139ab"
+    // Insert relevant parameters here
+  }
+  var stringUrl = "https://api.themoviedb.org/3/" + state.type + "/" + movieID;
+
+  $.ajax({
+    url: stringUrl,
     data: query, 
     dataType: "jsonp",
     success: callback
@@ -184,10 +298,11 @@ function displayTitleData(data, template) {
       string += item.name + ", ";
     });
     string = string.slice(0, -2);
-  }
-
-  var genre = "<span>Genres: " + string + "</span>";
-  template.find('.genre-tooltip').html(genre);
+    var genre = "<span>Genres: \n" + string + "</span>";
+    if (string !== "") {
+        template.find('.genre-tooltip').html(genre);
+    }
+  } 
 
   var newDetail;
   if (data.runtime !== null && data.runtime !== 0) {
@@ -227,8 +342,19 @@ function renderResult(state, result) {
     displayNetflixData(data, template);
   };
 
+  var receiveSimilarData = function(data) {
+    displaySimilarData(data, template);
+  };
+
+  var receiveRecommendedData = function(data) {
+    displayRecommendedData(data, template);
+  };
+
   getDataFromNetflix(template, result.title, receiveNetflixData);
-  getMoreDetails(template, result.id, receiveTitleData);
+  getMoreDetails(template, result.id, receiveTitleData, state);
+  getSimilarTitles(template, result.id, receiveSimilarData, state);
+  getRecommendedTitles(template, result.id, receiveRecommendedData, state);
+
   addToRecList(state, template);
 }
 
@@ -244,6 +370,20 @@ function renderRecList(state) {
      return item;
   });
   $('.js-rec-list').html(results);
+}
+
+function renderNextPrevButtons(state) {
+  if (state.page_num < state.last_page) {
+    $('.next').removeClass("hidden");
+  } else {
+    $('.next').addClass("hidden");
+  }
+
+  if (state.page_num === 1) {
+    $('.previous').addClass("hidden");
+  } else {
+    $('.previous').removeClass("hidden");
+  }
 }
 
 // Done
@@ -273,43 +413,48 @@ function renderRecList(state) {
 //   });
 // }
 
-function watchSearchMovie() {
+function watchSearchMovie(state) {
   $('.search-movie').click(function(event) {
+    state.type = "movie";
     clearRecState(state);
-    var movieFlag = "true";
     var queryTarget = $('.js-query');
     var query = queryTarget.val();
     if (query === "") {
+      queryTarget.attr("placeholder", "TYPE IN ME TO SEARCH :)");
       return;
+    } else {
+      queryTarget.attr("placeholder", "Genre, movie, TV show...");
     }
     // clear out the input
     queryTarget.val("");
+
     // ALL OF THE ABOVE WILL REMAIN THE SAME
-    getMovieFromApi(query, displaySearchData);
+    getMovieFromApi(query, state);
   });
 }
 
-function watchSearchTV() {
+function watchSearchTV(state) {
   $('.search-tv').click(function(event) {
+    state.type = "tv";
     clearRecState(state);
-    var tvFlag = "false";
     var queryTarget = $('.js-query');
     var query = queryTarget.val();
     if (query === "") {
+      queryTarget.attr("placeholder", "TYPE IN ME TO SEARCH :)");
       return;
+    } else {
+      queryTarget.attr("placeholder", "Genre, movie, TV show...");
     }
     // clear out the input
     queryTarget.val("");
     // ALL OF THE ABOVE WILL REMAIN THE SAME
-    getTVFromApi(query, displaySearchData);
+    getTVFromApi(query, state);
   });
 }
 
 function watchAddtoList(state) {
   $('.js-rec-list').on('click', '.js-add', function(event) {
-    // console.log(event);
     var target = $(this).parent().parent();
-    // console.log(target);
     addToWishList(state, target);
     renderWishList(state);
   });
@@ -318,7 +463,6 @@ function watchAddtoList(state) {
 function watchRemoveFromList(state) {
   $('.js-chosen-list').on('click', '.js-remove', function(event) {
     var target = $(this).parent().parent();
-    // console.log(target);
     removeFromWishList(state, target);
     renderWishList(state);
   });
@@ -351,6 +495,27 @@ function watchClear(state) {
   });
 }
 
+function watchNext(state) {
+  $('.next').click(function(event) {
+    state.page_num += 1;
+    state.last_query.page += 1;
+    clearRecState(state);
+    getNewPageFromApi(state);
+  });
+}
+
+function watchPrevious(state) {
+  $('.previous').click(function(event) {
+    state.page_num -= 1;
+    state.last_query.page -= 1;
+    clearRecState(state);
+    getNewPageFromApi(state);
+  });
+}
+
+
+
+
 function watchNewSearch(state) {
   $('.new-search').click(function(event) {
     clearRecState(state);
@@ -359,14 +524,17 @@ function watchNewSearch(state) {
 
 // This is also fine
 $(function() {
-  watchSearchMovie();
-  watchSearchTV();
+  watchSearchMovie(state);
+  watchSearchTV(state);
   watchAddtoList(state);
   watchRemoveFromList(state);
   watchStart();
   watchConfused();
   watchClear(state);
   watchNewSearch(state);
+  watchNext(state);
+  watchPrevious(state);
+
   // watchClick();
   // watchDirector();
   // watchKeyword();

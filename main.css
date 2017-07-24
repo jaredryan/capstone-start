@@ -39,16 +39,6 @@ button:hover {
 	border: 2px solid rgb(255,0,0);
 }
 
-.next, .previous {
-	text-decoration: none;
-	color: black;
-	padding: 20px;
-}
-
-.next:hover, .previous:hover {
-	text-decoration: underline;
-}
-
 .update-results {
 	padding: 20px;
 }
@@ -58,13 +48,13 @@ button:hover {
 	text-decoration: underline;
 }*/
 
-.search-tv, .search-movie {
+.search-tv, .search-movie, .next, .previous {
 	width: 200px;
 	margin-bottom: 80px;
 	border: 2px solid rgb(0,0,140);
 }
 
-.search-tv:hover, .search-movie:hover {
+.search-tv:hover, .search-movie:hover, .previous:hover, .next:hover {
 	border: 2px solid rgb(0,0,255);
 }
 
@@ -76,7 +66,7 @@ button:hover {
 	width: 100%;
 }
 
-.summary, .genre, .cast, .netflix, .details {
+.summary, .genre, .similar, .netflix, .details, .recommend {
 	font-size: 16px;
 	padding: 0px;
 	margin: 0px;
@@ -97,7 +87,7 @@ button:hover {
 	display: block;
 }
 
-.category {
+.category, .category-2, .category-3 {
 	width: 50%;
 	padding: 0px;
 	margin: 0px;
@@ -107,10 +97,10 @@ button:hover {
 
 .category-2 {
 	width: 33.33%;
-	padding: 0px;
-	margin: 0px;
-	text-align: center;
-	display: inline-block;
+}
+
+.category-3 {
+	width: 100%;
 }
 
 .result-image {

@@ -21,8 +21,8 @@
 
 	<form action="#" class="js-search-form hidden">
 		<div class="search-bar">
-	        <input type="text" class="js-query search" 
-	         	   placeholder="Movie, genre, actor/actress...">
+	        <input type="text" class="js-query search" required
+	         	   placeholder="Genre, movie, TV show...">
 	    </div>
 	    <div class="search-buttons">
 	        <a href="#rec-link">
@@ -61,8 +61,12 @@
 			</div>
 			<div class="update-results">
 				<!-- Update visibility and links of these buttons regularly	 -->
-		    	<a href="" class="previous"><- Previous</a>
-		    	<a href="" class="next">Next -></a>
+				<a href="#rec-link">
+	        		<button type="button" class="previous hidden"><- Previous</button>
+	        	</a>
+	        	<a href="#rec-link">
+	        		<button type="button" class="next hidden">Next -></button>
+	        	</a>
 			</div>
 			<a href="#search-title">
 	    		<button type="button" class="new-search">New Search</button>
