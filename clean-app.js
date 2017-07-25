@@ -103,7 +103,7 @@ function recToWishCopy(item) {
   template.find('.detail-tooltip').html(details);
   template.find('.recommended-tooltip').html(otherRecs);
 
-  return item;
+  return template;
 }
 
 // STATE
@@ -155,6 +155,11 @@ function clearRecState(state) {
 // Good
 function clearRecList(state) {
   state.rec_list = [];
+}
+
+// Good
+function setRecList(state, recList) {
+  state.rec_list = recList;
 }
 
 // Good
@@ -260,7 +265,7 @@ function addNetflixData(data, template) {
 function getSimilarTitles(template, ID, state) {
   // Wrapper for addNetflixData
   var callback = function(data) {
-    addSimilarData(data, template);
+    addSimilarData(data, template, state);
   };
   // Configure query
   var query = {
@@ -277,13 +282,22 @@ function getSimilarTitles(template, ID, state) {
 }
 
 // The double if statements here is bad...fix later
-function addSimilarData(data, template) {
+function addSimilarData(data, template, state) {
   var string = '';
   if (data.results !== null) {
       // Format the results
-      data.results.map(function(item) {
-        string += item.title + ", ";
-      });
+
+      // If movie, else tv
+      if (state.type === "movie") {
+        data.results.map(function(item) {
+          string += item.title + ", ";
+        });
+      } else {
+        data.results.map(function(item) {
+          string += item.name + ", ";
+        });
+      }
+
       string = string.slice(0, -2);
       var similarString = "Similar Movies: \n" + string;
       // Add the results, if any
@@ -299,7 +313,7 @@ function addSimilarData(data, template) {
 function getRecommendedTitles(template, ID, state) {
   // Wrapper for addRecommendedData
   var callback = function(data) {
-    addRecommendedData(data, template);
+    addRecommendedData(data, template, state);
   };
   // Configure query
   var query = {
@@ -316,13 +330,20 @@ function getRecommendedTitles(template, ID, state) {
 }
 
 // The double if statements here is bad...fix later
-function addRecommendedData(data, template) {
+function addRecommendedData(data, template, state) {
   var string = '';
   if (data.results !== null) {
       // Format the results
-      data.results.map(function(item) {
-        string += item.title + ", ";
-      });
+      if (state.type === "movie") {
+        data.results.map(function(item) {
+          string += item.title + ", ";
+        });
+      } else {
+        data.results.map(function(item) {
+          string += item.name + ", ";
+        });
+      }
+
       string = string.slice(0, -2);
       var recString = "Recommended Movies: \n" + string;
       // Add results, if any
@@ -337,9 +358,26 @@ function addRecommendedData(data, template) {
 // Good
 function getMoreDetails(template, ID, state) {
   // Wrapper for addTitleData
-  var callback = function(data) {
-    addTitleData(data, template);
-  };
+
+  ////////////////////////////////////////////
+
+  var callback;
+  if (state.type === movie) {
+    callback = function(data) {
+      addTitleData(data, template);
+    };
+  } else {
+    callback = function(data) {
+      addNameData(data, template);
+    };
+  }
+
+  ////////////////////////////////////////////
+
+  // var callback = function(data) {
+  //   addTitleData(data, template);
+  // };
+
   // Configure query
   var query = {
     api_key: "89ac11ce0fa4d53d4c4df236630139ab"
@@ -380,7 +418,60 @@ function addTitleData(data, template) {
   }
   // Get Previous Details
   var detailHTML = template.find('.detail-tooltip').val();
-  var finalHTML = detailString + newDetail;
+  var finalHTML = detailHTML + newDetail;
+  // Add New Details
+  template.find('.detail-tooltip').html(finalHTML);
+}
+
+// It's okay...
+function addNameData(data, template) {
+  // Add Genre...the double if statements here is bad...fix later
+  var string = '';
+  if (data.genres !== null) {
+    // Format the results
+    data.genres.map(function(item) {
+      string += item.name + ", ";
+    });
+    string = string.slice(0, -2);
+    var genre = "Genres: \n" + string;
+    // Add the results, if any
+    if (string !== "") {
+        template.find('.genre-tooltip').text(genre);
+    }
+  } 
+
+  var newDetail = "<span>Number of Seasons: ";
+  if (data.number_of_seasons !== null && data.number_of_seasons !== 0) {
+    newDetail += (data.number_of_seasons + "\n</span>");
+  } else {
+    newDetail += "Not Registered\n</span>";
+  }
+
+  // Accomodate airtime 
+  newDetail += "<span>Airtime: ";
+  if (data.first_air_date !== null && data.first_air_date !== 0) {
+    if (data.last_air_date !== null && data.last_air_date !== 0) {
+      newDetail += (result.first_air_date + " to " + result.last_air_date + "\n</span>");
+    } else {
+      newDetail += ("Began in " + data.first_air_date + "\n</span>");
+    }
+  } else if (data.last_air_date !== null && data.last_air_date !== 0) {
+    newDetail += ("Ended in " + data.last_air_date + "\n</span>");
+  } else {
+    newDetail += ("Not registered\n</span>");
+  }
+
+  // Format Details
+  newDetail += "<span>Episode Length: ";
+  if (data.episode_run_time !== null && data.episode_run_time !== 0) {
+    newDetail += (data.episode_run_time + " min</span>");
+  } else {
+    newDetail += "Not Registered</span>";
+  }
+
+  // Get Previous Details
+  var detailHTML = template.find('.detail-tooltip').val();
+  var finalHTML = detailHTML + newDetail;
   // Add New Details
   template.find('.detail-tooltip').html(finalHTML);
 }
@@ -394,13 +485,35 @@ function formatAndAddSearchData(data, state) {
   var lastPage = data.total_pages;
   updateLastPage(state, lastPage);
   // Now, process the data.
-  data.results.map(function(item) {
-     formatAndAddResult(state, item);
-  });
+  var recList;
+  if (state.type == "movie") {
+    recList = data.results.map(function(item) {
+       return formatMovieResult(state, item);
+    });
+  } else {
+    recList = data.results.map(function(item) {
+       return formatTVResult(state, item);
+    });
+  }
+  
+
+  /////////
+
+  function orderExec(state1, rec_list, callback) {
+    setRecList(state1, rec_list)
+    callback(state1);
+  }
+
+  orderExec(state, recList, renderRecList);
+
+  /////////
+
+  // setRecList(state1, rec_list)
+  // renderRecList(state);
 }
 
 // As good as I can
-function formatAndAddResult(state, result) {
+function formatMovieResult(state, result) {
   // Create template
   var template = $(RESULT_HTML_TEMPLATE);
 
@@ -443,10 +556,57 @@ function formatAndAddResult(state, result) {
   } catch(e) {
     console.log(e);
   }
-
   // Adds the formatted entry to the Recommended List.
-  addToRecList(state, template);
+  return template;
 }
+
+// As good as I can
+function formatTVResult(state, result) {
+  // Create template
+  var template = $(RESULT_HTML_TEMPLATE);
+
+  // Retrive and add TV poster...what do I do in the case of a bad poster?
+  if (result.poster_path !== null) {
+    var string = "http://image.tmdb.org/t/p/w185/" + result.poster_path;
+    template.find(".js-result-image").attr("src", string);
+  }
+
+  // Retrieve and add title and overview to the Summary.
+  var summary = "<span>Title: " + result.name + "\n</span>" + 
+                "<span>Description: " + result.overview + "\n</span>";
+  template.find('.summary-tooltip').html(summary);
+  // Retrieve and add details to the Details.
+  var details = "<span>Popularity: " + result.popularity + "\n</span>";
+  template.find('.detail-tooltip').html(details);
+
+  // Attempts to retrieve and add Netflix Roulette data.
+  try {
+    getDataFromNetflix(template, result.title);
+  } catch(e) {
+    console.log(e);
+  }
+  // Attempts to retrieve and add Similar Titles data.
+  try {
+    getSimilarTitles(template, result.id, state);
+  } catch(e) {
+    console.log(e);
+  }
+  // Attempts to retrieve and add Recommended Titles from TMDB.
+  try {
+    getRecommendedTitles(template, result.id, state);
+  } catch(e) {
+    console.log(e);
+  }
+  // Attempts to retrieve and add Details from TMDB.
+  try {
+    getMoreDetails(template, result.id, state);
+  } catch(e) {
+    console.log(e);
+  }
+  // Adds the formatted entry to the Recommended List.
+  return template;
+}
+
 
 // RENDER ELEMENTS
 
@@ -466,14 +626,14 @@ function renderWishList(state) {
 function renderRecList(state) {
   // Render Items
   if (state.rec_list === []) {
-    $('.js-chosen-list').html("");
+    $('.js-rec-list').html("");
   } else {
     var results = state.rec_list.map(function(item) {
       return item;
     });
     $('.js-rec-list').html(results);
   }
-  
+
   // Render Prev and Next, respectively
   if (state.page_num === 1) {
     $('.previous').addClass("hidden");
@@ -488,23 +648,19 @@ function renderRecList(state) {
   }
 }
 
-// Helper function to prepare for Searches
-function prepareForSearch(state) {
-  // Clean up
-  clearRecState(state);
-  clearRecList(state);
+// Helper function to getTerm for Searches
+function getTerm(state) {
   // Get new input
   var queryTarget = $('.js-query');
   var query = queryTarget.val();
   // Account for lack of input, if necessary
   if (query === "") {
     queryTarget.attr("placeholder", "TYPE IN ME TO SEARCH :)");
-    return;
   } else {
+    // Reset search bar
     queryTarget.attr("placeholder", "Genre, movie, TV show...");
+    queryTarget.val("");
   }
-  // Clear out the input and return it
-  queryTarget.val("");
   return query;
 }
 
@@ -533,23 +689,32 @@ function watchConfused(state) {
   });
 }
 
-// Good but doesn't function
+// Okay. I don't get the last part. It also doesn't function every time
 function watchSearchMovie(state) {
   $('.search-movie').click(function(event) {
+    var searchTerm = getTerm(state);
+    if (searchTerm === "") {
+      return;
+    }
+    clearRecState(state);
+    clearRecList(state);
     setMovieAsType(state);
-    var query = prepareForSearch(state);
-    getDataFromApi(state, query);
-    renderRecList(state);
+    getDataFromApi(state, searchTerm);
   });
 }
 
-// Good but doesn't function
+// Okay. I don't get the last part. It also doesn't function every time
 function watchSearchTV(state) {
   $('.search-tv').click(function(event) {
+    var searchTerm = getTerm(state);
+    if (searchTerm === "") {
+      return;
+    }
+    clearRecState(state);
+    clearRecList(state);
     setTVAsType(state);
-    var query = prepareForSearch(state);
-    getDataFromApi(state, query);
-    renderRecList(state);
+    getDataFromApi(state, searchTerm);
+    // renderRecList(state);
   });
 }
 
@@ -562,23 +727,23 @@ function watchNewSearch(state) {
   });
 }
 
-// Good but doesn't function
+// Okay. I don't get the last part. It also doesn't function every time
 function watchNext(state) {
   $('.next').click(function(event) {
     moveUpAPage(state);
     clearRecList(state);
     getPageFromApi(state);
-    renderRecList(state);
+    // renderRecList(state);
   });
 }
 
-// Good but doesn't function
+// Okay. I don't get the last part. It also doesn't function every time
 function watchPrevious(state) {
   $('.previous').click(function(event) {
     moveDownAPage(state);
     clearRecList(state);
     getPageFromApi(state);
-    renderRecList(state);
+    // renderRecList(state);
   });
 }
 
@@ -610,8 +775,8 @@ function watchClear(state) {
 
 // Good
 $(function() {
-  watchStart();
-  watchConfused();
+  watchStart(); // tested
+  watchConfused(); // tested
   watchSearchMovie(state);
   watchSearchTV(state);
   watchNewSearch(state);

@@ -218,6 +218,8 @@ function displaySearchData(data, state) {
   var results = data.results.map(function(item) {
      renderResult(state, item);
   });
+  console.log("Rec-List Check: ")
+  console.log(state.rec_list);
   renderRecList(state);
 }
 
@@ -294,14 +296,14 @@ function getRecommendedTitles(template, movieID, callback, state) {
 function displayRecommendedData(data, template) {
 
   // alter as needed
-  console.log(data.results);
+
   var string = '';
   if (data.results !== null) {
       data.results.map(function(item) {
         string += item.title + ", ";
       });
       string = string.slice(0, -2);
-      console.log(string);
+
       var similarString = "<span>Recommended Movies: \n" + string + "</span>";
       if (string !== "") {
         template.find('.recommended-tooltip').html(similarString);
