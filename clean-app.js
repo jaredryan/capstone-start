@@ -356,19 +356,19 @@ function addRecommendedData(data, template, state) {
 // TMDB DETAILS SECTION RETRIEVAL
 
 // Good
-function getMoreDetails(template, ID, state) {
+function getMoreDetails(template, ID, state, details) {
   // Wrapper for addTitleData
 
   ////////////////////////////////////////////
 
   var callback;
-  if (state.type === movie) {
+  if (state.type === "movie") {
     callback = function(data) {
-      addTitleData(data, template);
+      addTitleData(data, template, details);
     };
   } else {
     callback = function(data) {
-      addNameData(data, template);
+      addNameData(data, template, details);
     };
   }
 
@@ -393,7 +393,7 @@ function getMoreDetails(template, ID, state) {
 }
 
 // It's okay...
-function addTitleData(data, template) {
+function addTitleData(data, template, newDetail) {
   // Add Genre...the double if statements here is bad...fix later
   var string = '';
   if (data.genres !== null) {
@@ -409,22 +409,19 @@ function addTitleData(data, template) {
     }
   } 
 
-  // Format Details
-  var newDetail = "<span>Runtime: ";
-  if (data.runtime !== null && data.runtime !== 0) {
+  // Format and add new details
+  newDetail += "<span>Runtime: ";
+  if (data.runtime !== null && data.runtime !== 0 && data.runtime !== "") {
     newDetail += (data.runtime + " min</span>");
   } else {
     newDetail += "Not Registered</span>";
   }
-  // Get Previous Details
-  var detailHTML = template.find('.detail-tooltip').val();
-  var finalHTML = detailHTML + newDetail;
-  // Add New Details
-  template.find('.detail-tooltip').html(finalHTML);
+  // Insert
+  template.find('.detail-tooltip').html(newDetail);
 }
 
 // It's okay...
-function addNameData(data, template) {
+function addNameData(data, template, newDetail) {
   // Add Genre...the double if statements here is bad...fix later
   var string = '';
   if (data.genres !== null) {
@@ -440,8 +437,11 @@ function addNameData(data, template) {
     }
   } 
 
-  var newDetail = "<span>Number of Seasons: ";
-  if (data.number_of_seasons !== null && data.number_of_seasons !== 0) {
+  // FORMT AND ADD NEW DETAILS
+
+  // Accomodate seasons
+  newDetail += "<span>Number of Seasons: ";
+  if (data.number_of_seasons !== null && data.number_of_seasons !== 0 && data.number_of_seasons !== "") {
     newDetail += (data.number_of_seasons + "\n</span>");
   } else {
     newDetail += "Not Registered\n</span>";
@@ -449,31 +449,29 @@ function addNameData(data, template) {
 
   // Accomodate airtime 
   newDetail += "<span>Airtime: ";
-  if (data.first_air_date !== null && data.first_air_date !== 0) {
-    if (data.last_air_date !== null && data.last_air_date !== 0) {
-      newDetail += (result.first_air_date + " to " + result.last_air_date + "\n</span>");
+  if (data.first_air_date !== null && data.first_air_date !== "") {
+    if (data.last_air_date !== null && data.last_air_date !== "") {
+      newDetail += (data.first_air_date + " to " + data.last_air_date + "\n</span>");
     } else {
       newDetail += ("Began in " + data.first_air_date + "\n</span>");
     }
-  } else if (data.last_air_date !== null && data.last_air_date !== 0) {
+  } else if (data.last_air_date !== null && data.last_air_date !== "") {
     newDetail += ("Ended in " + data.last_air_date + "\n</span>");
   } else {
     newDetail += ("Not registered\n</span>");
   }
 
-  // Format Details
+  // Accomodate episode length
   newDetail += "<span>Episode Length: ";
-  if (data.episode_run_time !== null && data.episode_run_time !== 0) {
+  console.log(data.episode_run_time);
+  if (data.episode_run_time !== null && data.episode_run_time !== 0 && data.episode_run_time == []) {
     newDetail += (data.episode_run_time + " min</span>");
   } else {
     newDetail += "Not Registered</span>";
   }
 
-  // Get Previous Details
-  var detailHTML = template.find('.detail-tooltip').val();
-  var finalHTML = detailHTML + newDetail;
-  // Add New Details
-  template.find('.detail-tooltip').html(finalHTML);
+  // Insert
+  template.find('.detail-tooltip').html(newDetail);
 }
 
 
@@ -523,13 +521,45 @@ function formatMovieResult(state, result) {
     template.find(".js-result-image").attr("src", string);
   }
 
-  // Retrieve and add title and overview to the Summary.
-  var summary = "<span>Title: " + result.title + "\n</span>" + 
-                "<span>Description: " + result.overview + "\n</span>";
+  // Retrieve attributes, making sure they exist
+  var sumTitle;
+  if (result.title !== null && result.title !== "") {
+    sumTitle = result.title;
+  } else {
+    sumTitle = "Not registered";
+  }
+
+  var sumOverview;
+  if (result.overview !== null && result.overview !== "") {
+    sumOverview = result.overview;
+  } else {
+    sumOverview = "Not registered";
+  }
+
+  var detPop;
+  if (result.popularity !== null && result.popularity !== 0) {
+    detPop = result.popularity;
+  } else {
+    detPop = "Not registered";
+  }
+
+  var detRel;
+  if (result.release_date !== null && result.release_date !== "") {
+    detRel = result.release_date;
+  } else {
+    detRel = "Not registered";
+  }
+
+  // Prepare attributes for template
+  var summary = "<span>Title: " + sumTitle + "\n</span>" + 
+                "<span>Description: " + sumOverview + "\n</span>";
+
+  var details = "<span>Popularity: " + detPop + "\n</span>" + 
+                "<span>Release: " + detRel + "\n</span>";
+
+
+  // Add attributes to template
   template.find('.summary-tooltip').html(summary);
-  // Retrieve and add details to the Details.
-  var details = "<span>Popularity: " + result.popularity + "\n</span>" + 
-                "<span>Release: " + result.release_date + "\n</span>";
   template.find('.detail-tooltip').html(details);
 
   // Attempts to retrieve and add Netflix Roulette data.
@@ -552,7 +582,7 @@ function formatMovieResult(state, result) {
   }
   // Attempts to retrieve and add Details from TMDB.
   try {
-    getMoreDetails(template, result.id, state);
+    getMoreDetails(template, result.id, state, details);
   } catch(e) {
     console.log(e);
   }
@@ -571,12 +601,37 @@ function formatTVResult(state, result) {
     template.find(".js-result-image").attr("src", string);
   }
 
-  // Retrieve and add title and overview to the Summary.
-  var summary = "<span>Title: " + result.name + "\n</span>" + 
-                "<span>Description: " + result.overview + "\n</span>";
+
+  // Retrieve attributes, making sure they exist
+  var sumTitle;
+  if (result.title !== null && result.title !== "") {
+    sumTitle = result.name;
+  } else {
+    sumTitle = "Not registered";
+  }
+
+  var sumOverview;
+  if (result.overview !== null && result.overview !== "") {
+    sumOverview = result.overview;
+  } else {
+    sumOverview = "Not registered";
+  }
+
+  var detPop;
+  if (result.popularity !== null && result.popularity !== 0) {
+    detPop = result.popularity;
+  } else {
+    detPop = "Not registered";
+  }
+
+  // Prepare attributes for template
+  var summary = "<span>Title: " + sumTitle + "\n</span>" + 
+                "<span>Description: " + sumOverview + "\n</span>";
+
+  var details = "<span>Popularity: " + detPop + "\n</span>";
+
+  // Add attributes to template
   template.find('.summary-tooltip').html(summary);
-  // Retrieve and add details to the Details.
-  var details = "<span>Popularity: " + result.popularity + "\n</span>";
   template.find('.detail-tooltip').html(details);
 
   // Attempts to retrieve and add Netflix Roulette data.
@@ -599,7 +654,7 @@ function formatTVResult(state, result) {
   }
   // Attempts to retrieve and add Details from TMDB.
   try {
-    getMoreDetails(template, result.id, state);
+    getMoreDetails(template, result.id, state, details);
   } catch(e) {
     console.log(e);
   }
