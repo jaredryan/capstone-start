@@ -7,6 +7,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="main.css" rel="stylesheet" type="text/css">
 </head>
+<div class="top-bar">
+	<div class="left-half">
+		<p class="left">Powered by <a href="https://www.themoviedb.org/?language=en"><u>The Movie DB</u></a></p>
+	</div>
+	<div class="right-half">
+		<p class="right">Netflix Information obtained via <a href="https://netflixroulette.net"><u>Netflix Roulette</u></a></p>
+	</div>
+</div>
 <header>
 	<div class="overlay">
 		<!-- <img src="http://cdn.playbuzz.com/cdn/7da618a4-ba64-42e3-8fae-68a4fa778812/89197bbb-8d92-4bc1-955b-a6e9b7c15b3d.jpg"/> -->
@@ -23,7 +31,7 @@
 			<button type="button" class="start-button js-start-button">Start!</button>
 		</div>
 
-		<div class="js-search-form hidden">
+		<div class="js-search-form search-form hidden">
 			<div class="search-bar">
 		        <input type="text" class="js-query search" 
 		         	   placeholder="Genre, movie, TV show...">
@@ -47,7 +55,9 @@
 <body>
 	<main>
 		<div class="rec-section">
-			<a id="rec-link" class="rec-link"><h1>Recommendations</h1></a>
+			<div class="top-bar section-title">
+				<a id="rec-link" class="rec-link"><h1 class="title">Recommendations</h1></a>
+			</div>
 			<div class="rec-list js-rec-list">
 				<!-- Results are inserted here	 -->
 			</div>
@@ -67,22 +77,24 @@
 	    		<button type="button" class="new-search">New Search</button>
 	   		</a>
 	   		<a href="#chosen-link">
-	    		<button type="button">Go to Your List</button>
+	    		<button type="button" class="your-list">Go to Your List</button>
 	   		</a>
 		</div>
 		<div class="separation"></div>
 		<div class="chosen-section js-chosen-section">
-			<a id="chosen-link" class="chosen-link"><h1>Go to Your List</h1></a>
+			<div class="top-bar section-title">
+				<a id="chosen-link" class="chosen-link"><h1 class="title">Wish List</h1></a>
+			</div>
 			<div class="chosen-list js-chosen-list">
 				<!-- Chosen elements are inserted here	 -->
 			</div>
+			<button type="button" class="js-clear clear hidden">Clear List</button>
 			<div class="row-wish">
-		    	<button type="button" class="js-clear">Clear List</button>
 				<a href="#search-title">
 		    		<button type="button" class="new-search">New Search</button>
 		   		</a>
 		   		<a href="#rec-link">
-		    		<button type="button">Recommendations</button>
+		    		<button type="button" class="go-to-rec">Go to Recommendations</button>
 		   		</a>
 		   	</div>
 		</div>

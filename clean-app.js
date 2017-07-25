@@ -628,11 +628,13 @@ function formatTVResult(state, result) {
 function renderWishList(state) {
   if (state.wish_list == []) {
     $('.js-chosen-list').html("");
+    $('.js-clear').addClass("hidden")
   } else {
     var results = state.wish_list.map(function(item) {
        return item;
     });
     $('.js-chosen-list').html(results);
+    $('.js-clear').removeClass("hidden")
   }
 }
 

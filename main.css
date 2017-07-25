@@ -2,6 +2,69 @@
   	box-sizing: border-box;
 }
 
+.top-bar {
+	text-decoration: none;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	background-size: cover;
+	background-color: rgb(0,10,25);
+	color: rgb(150,200,255);
+	/*text-align: right;*/
+	font-size: 0px;
+}
+
+.section-title {
+	line-height: 50px;
+	height: 50px;
+	vertical-align: middle;
+	color: rgb(150,200,255);
+	border-bottom: 3px solid rgb(150,200,255);
+}
+
+.title {
+	color: rgb(220,230,255);
+	text-shadow: 2px 2px black;
+}
+
+h1 {
+	font-size: 29px;
+}
+
+.top-bar a {
+	text-decoration: none;
+	color: rgb(150,200,255);
+	font-size: 13px;
+}
+
+.left, .right {
+	font-size: 13px;
+	padding: 10px;
+	margin: 0px;
+}
+
+.left-half, .right-half {
+	font-size: 0px
+	margin: 0px;
+	padding: 0px;
+	/*width : 50%;*/
+	display: inline-block;
+	background-color: rgb(0,10,25);
+	border: none;
+}
+
+.right-half {
+	/*background-color: blue;*/
+	width: 65%;
+	text-align : right;
+}
+
+.left-half {
+	/*background-color: green;*/
+	width: 35%;
+	text-align : left;
+}
+
 body, header {
 	margin-top: 0px;
 	background-color: rgb(10,30,55);
@@ -42,11 +105,16 @@ header {
 }
 
 .overlay {
-	/*background-color: rgba(150, 150, 150);
-	visibility: visible;*/
 	display: table-cell;
     vertical-align: middle;
-    /*width: 100%;*/
+}
+
+.search-form {
+	width: 100%;
+}
+
+.search {
+	width: 100%;
 }
 
 a {
@@ -54,7 +122,7 @@ a {
 }
 
 .search {
-	width: 400px;
+	width: 90%;
 	height: 35px;
 	font-size: 18px;
 	border-radius: 3px;
@@ -70,6 +138,7 @@ button {
 	border: 2px solid rgb(0,0,140);
 	color: black;
 	background-color: rgb(150,200,255);
+	margin-bottom: 5px;
 }
 
 button:hover {
@@ -78,8 +147,13 @@ button:hover {
 	border: 2px solid rgb(0,0,255);
 }
 
+.go-to-rec {
+	font-size: 14px;
+}
+
 .update-results {
 	padding: 20px;
+	margin-bottom: 60px
 }
 
 .row-wish {
@@ -94,17 +168,29 @@ button:hover {
 	text-decoration: underline;
 }*/
 
-.search-tv, .search-movie, .next, .previous, .render, .try-again {
+/*.search-movie {
+	margin-bottom: 5px;
+}*/
+
+.clear {
+	margin-top: 20px;
+}
+
+.search-tv, .search-movie, .next, .previous, .try-again, .clear {
 	width: 200px;
 	margin-bottom: 80px;
-	border: 2px solid rgb(0,0,0);
-	background-color: rgb(0,0,0);
+	border: 2px solid rgb(90,100,115);
+	background-color: rgb(0,10,25);
 	color: white;
 }
 
+.search-movie, .previous, .next, .try-again {
+	margin-bottom: 5px;
+}
+
 .search-tv:hover, .search-movie:hover, .previous:hover, .next:hover, .render:hover, .try-again:hover {
-	border: 2px solid rgb(100,100,100);
-	background-color: rgb(100,100,100);
+	border: 2px solid rgb(0,10,25);
+	background-color: rgb(90,100,115);
 }
 
 .rec-list {
@@ -210,7 +296,12 @@ button:hover {
 	height: 0px;
 	margin-bottom: 20px;
 	margin-top: 20px;
-	border: 1px solid silver;
+/*	border: 1px solid silver;*/
+}
+
+.chosen-section, .rec-section {
+	background-color: white;
+	color: rgb(0,10,25);
 }
 
 .add, .go-list, .remove {
@@ -224,7 +315,7 @@ button:hover {
 
 @media only screen and (min-width: 425px) {
 
-	header h1 {
+	h1 {
 		font-size: 32px;
 	}
 
@@ -239,3 +330,12 @@ button:hover {
 	.explanation {
 		width: 70%;
 	}
+
+	.left, .right, .top-bar a. {
+		font-size: 15px;
+	}
+
+	.search {
+		width: 375px;
+	}
+}
