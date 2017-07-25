@@ -48,13 +48,13 @@ button:hover {
 	text-decoration: underline;
 }*/
 
-.search-tv, .search-movie, .next, .previous {
+.search-tv, .search-movie, .next, .previous, .render, .try-again {
 	width: 200px;
 	margin-bottom: 80px;
 	border: 2px solid rgb(0,0,140);
 }
 
-.search-tv:hover, .search-movie:hover, .previous:hover, .next:hover {
+.search-tv:hover, .search-movie:hover, .previous:hover, .next:hover, .render:hover, .try-again:hover {
 	border: 2px solid rgb(0,0,255);
 }
 

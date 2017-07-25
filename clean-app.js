@@ -120,30 +120,25 @@ var state = {
 
 // FUNCTIONS THAT UPDATE STATE
 
-// Good
 function addToWishList(state, item) {
   var template = $(WISH_HTML_TEMPLATE);
   var copy = recToWishCopy(item)
   state.wish_list.push(copy);
 }
 
-// Good
 function addToRecList(state, item) {
   state.rec_list.push(item);
 }
 
-// Good
 function removeFromWishList(state, item) {
   var index = state.wish_list.indexOf(item);
   state.wish_list.splice(index, 1);
 }
 
-// Good
 function clearWishState(state) {
   state.wish_list = [];
 }
 
-// Good
 function clearRecState(state) {
   state.page_num = 1;
   state.last_page = 1;
@@ -152,56 +147,50 @@ function clearRecState(state) {
   state.type = "";
 };
 
-// Good
 function clearRecList(state) {
   state.rec_list = [];
 }
 
-// Good
 function setRecList(state, recList) {
   state.rec_list = recList;
 }
 
-// Good
 function setMovieAsType(state) {
   state.type = "movie";
 }
 
-// Good
 function setTVAsType(state) {
   state.type = "tv";
 }
 
-// Good
 function moveUpAPage(state) {
-  state.page_num += 1;
-  state.last_query.page += 1;
+  if (state.last_page > state.page_num) {
+    state.page_num += 1;
+    state.last_query.page += 1;
+  }
 }
 
-// Good
 function moveDownAPage(state) {
-  state.page_num -= 1;
-  state.last_query.page -= 1;
+  if (state.page_num > 1) {
+    state.page_num -= 1;
+    state.last_query.page -= 1;
+  }
 }
 
-// Good
 function updateLastPage(state, numPages) {
   state.last_page = numPages;
 }
 
-// Good
 function updateURL(state, url) {
   state.last_url = url;
 }
 
-// Good
 function updateLastQuery(state, query) {
   state.last_query = query;
 }
 
 // DATA RETRIEVERS
 
-// Good
 function getDataFromApi(state, searchTerm) {
   // Configure state accordingly
   var url = "https://api.themoviedb.org/3/search/" + state.type;
@@ -215,7 +204,6 @@ function getDataFromApi(state, searchTerm) {
   getPageFromApi(state);
 };
 
-// Good
 function getPageFromApi(state) {
   // Wrapper for formatAndAddSearchData
   var toCallback = function(data) {
@@ -232,10 +220,9 @@ function getPageFromApi(state) {
 
 // NETFLIX RETRIEVAL
 
-// Good
 function getDataFromNetflix(template, searchTitle) {
   // Wrapper for addNetflixData
-  var callback = function(data) {
+  var toCallback = function(data) {
     addNetflixData(data, template);
   };
   // Configure query
@@ -244,10 +231,9 @@ function getDataFromNetflix(template, searchTitle) {
     data: 1
   };
   // Make the request
-  $.getJSON("https://netflixroulette.net/api/api.php", query, callback);
+  $.getJSON("https://netflixroulette.net/api/api.php", query, toCallback);
 }
 
-// Good
 function addNetflixData(data, template) {
   // Format the results
   var ratingString = "On Netflix Roulette\nRating: ";
@@ -256,7 +242,7 @@ function addNetflixData(data, template) {
   } else {
     ratingString += "Undetermined"
   }
-  // Add the results, if any
+  // Insert the results, if any
   template.find('.netflix-tooltip').text(ratingString);
 }
 
@@ -281,7 +267,6 @@ function getSimilarTitles(template, ID, state) {
   });
 }
 
-// The double if statements here is bad...fix later
 function addSimilarData(data, template, state) {
   var string = '';
   if (data.results !== null) {
@@ -300,7 +285,7 @@ function addSimilarData(data, template, state) {
 
       string = string.slice(0, -2);
       var similarString = "Similar Movies: \n" + string;
-      // Add the results, if any
+      // Insert the results, if any
       if (string !== "") {
         template.find('.similar-tooltip').text(similarString);
       }
@@ -309,7 +294,6 @@ function addSimilarData(data, template, state) {
 
 // TMDB RECOMMENDED SECTION RETRIEVAL
 
-// Good
 function getRecommendedTitles(template, ID, state) {
   // Wrapper for addRecommendedData
   var callback = function(data) {
@@ -329,7 +313,6 @@ function getRecommendedTitles(template, ID, state) {
   });
 }
 
-// The double if statements here is bad...fix later
 function addRecommendedData(data, template, state) {
   var string = '';
   if (data.results !== null) {
@@ -346,7 +329,7 @@ function addRecommendedData(data, template, state) {
 
       string = string.slice(0, -2);
       var recString = "Recommended Movies: \n" + string;
-      // Add results, if any
+      // Insert results, if any
       if (string !== "") {
         template.find('.recommended-tooltip').text(recString);
       }
@@ -355,12 +338,8 @@ function addRecommendedData(data, template, state) {
 
 // TMDB DETAILS SECTION RETRIEVAL
 
-// Good
 function getMoreDetails(template, ID, state, details) {
-  // Wrapper for addTitleData
-
-  ////////////////////////////////////////////
-
+  // Wrapper for add functions for movie/tv
   var callback;
   if (state.type === "movie") {
     callback = function(data) {
@@ -371,12 +350,6 @@ function getMoreDetails(template, ID, state, details) {
       addNameData(data, template, details);
     };
   }
-
-  ////////////////////////////////////////////
-
-  // var callback = function(data) {
-  //   addTitleData(data, template);
-  // };
 
   // Configure query
   var query = {
@@ -392,9 +365,8 @@ function getMoreDetails(template, ID, state, details) {
   });
 }
 
-// It's okay...
 function addTitleData(data, template, newDetail) {
-  // Add Genre...the double if statements here is bad...fix later
+  // Get genre and insert
   var string = '';
   if (data.genres !== null) {
     // Format the results
@@ -409,20 +381,19 @@ function addTitleData(data, template, newDetail) {
     }
   } 
 
-  // Format and add new details
+  // Format and insert new details
   newDetail += "<span>Runtime: ";
   if (data.runtime !== null && data.runtime !== 0 && data.runtime !== "") {
     newDetail += (data.runtime + " min</span>");
   } else {
     newDetail += "Not Registered</span>";
   }
-  // Insert
+  // Insert details
   template.find('.detail-tooltip').html(newDetail);
 }
 
-// It's okay...
 function addNameData(data, template, newDetail) {
-  // Add Genre...the double if statements here is bad...fix later
+  // Get genre and insert
   var string = '';
   if (data.genres !== null) {
     // Format the results
@@ -431,7 +402,7 @@ function addNameData(data, template, newDetail) {
     });
     string = string.slice(0, -2);
     var genre = "Genres: \n" + string;
-    // Add the results, if any
+    // Insert the results, if any
     if (string !== "") {
         template.find('.genre-tooltip').text(genre);
     }
@@ -463,21 +434,19 @@ function addNameData(data, template, newDetail) {
 
   // Accomodate episode length
   newDetail += "<span>Episode Length: ";
-  console.log(data.episode_run_time);
   if (data.episode_run_time !== null && data.episode_run_time !== 0 && data.episode_run_time == []) {
     newDetail += (data.episode_run_time + " min</span>");
   } else {
     newDetail += "Not Registered</span>";
   }
 
-  // Insert
+  // Insert details
   template.find('.detail-tooltip').html(newDetail);
 }
 
 
 // FORMATS RETRIEVED DATA
 
-// Good
 function formatAndAddSearchData(data, state) {
   // First update state to this page
   var lastPage = data.total_pages;
@@ -494,20 +463,13 @@ function formatAndAddSearchData(data, state) {
     });
   }
   
-
-  /////////
-
+  // Done to make sure recList is updated before rendering it
   function orderExec(state1, rec_list, callback) {
-    setRecList(state1, rec_list)
+    setRecList(state1, rec_list);
     callback(state1);
   }
 
   orderExec(state, recList, renderRecList);
-
-  /////////
-
-  // setRecList(state1, rec_list)
-  // renderRecList(state);
 }
 
 // As good as I can
@@ -515,7 +477,7 @@ function formatMovieResult(state, result) {
   // Create template
   var template = $(RESULT_HTML_TEMPLATE);
 
-  // Retrive and add movie poster...what do I do in the case of a bad poster?
+  // Retrieve and add movie poster...what do I do in the case of a bad poster?
   if (result.poster_path !== null) {
     var string = "http://image.tmdb.org/t/p/w185/" + result.poster_path;
     template.find(".js-result-image").attr("src", string);
@@ -590,7 +552,6 @@ function formatMovieResult(state, result) {
   return template;
 }
 
-// As good as I can
 function formatTVResult(state, result) {
   // Create template
   var template = $(RESULT_HTML_TEMPLATE);
@@ -600,7 +561,6 @@ function formatTVResult(state, result) {
     var string = "http://image.tmdb.org/t/p/w185/" + result.poster_path;
     template.find(".js-result-image").attr("src", string);
   }
-
 
   // Retrieve attributes, making sure they exist
   var sumTitle;
@@ -665,9 +625,8 @@ function formatTVResult(state, result) {
 
 // RENDER ELEMENTS
 
-// GOOD
 function renderWishList(state) {
-  if (state.wish_list === []) {
+  if (state.wish_list == []) {
     $('.js-chosen-list').html("");
   } else {
     var results = state.wish_list.map(function(item) {
@@ -677,10 +636,9 @@ function renderWishList(state) {
   }
 }
 
-// Good
 function renderRecList(state) {
   // Render Items
-  if (state.rec_list === []) {
+  if (state.rec_list == []) {
     $('.js-rec-list').html("");
   } else {
     var results = state.rec_list.map(function(item) {
@@ -689,12 +647,14 @@ function renderRecList(state) {
     $('.js-rec-list').html(results);
   }
 
-  // Render Prev and Next, respectively
+  // Render Prev, Try Again,  and Next, respectively
   if (state.page_num === 1) {
     $('.previous').addClass("hidden");
   } else {
     $('.previous').removeClass("hidden");
   }
+
+  $('.js-try-again').removeClass("hidden");
 
   if (state.page_num < state.last_page) {
     $('.next').removeClass("hidden");
@@ -721,7 +681,6 @@ function getTerm(state) {
 
 // EVENT LISTENERS
 
-// Good. For the more static introduction elements, this works.
 function watchStart(state) {
   $('.explanation').on('click', '.js-start-button', function(event) {
     $(this).addClass('hidden');
@@ -732,7 +691,6 @@ function watchStart(state) {
   });
 }
 
-// Good. For the more static introduction elements, this works.
 function watchConfused(state) {
   $('header').on('click', '.js-confused', function(event) {
     $(this).addClass('hidden');
@@ -744,7 +702,6 @@ function watchConfused(state) {
   });
 }
 
-// Okay. I don't get the last part. It also doesn't function every time
 function watchSearchMovie(state) {
   $('.search-movie').click(function(event) {
     var searchTerm = getTerm(state);
@@ -755,6 +712,11 @@ function watchSearchMovie(state) {
     clearRecList(state);
     setMovieAsType(state);
     getDataFromApi(state, searchTerm);
+    // Hacky solution
+    var renderFunct = function(state) {
+      renderRecList(state);
+    };
+    renderFunct(state);
   });
 }
 
@@ -769,7 +731,11 @@ function watchSearchTV(state) {
     clearRecList(state);
     setTVAsType(state);
     getDataFromApi(state, searchTerm);
-    // renderRecList(state);
+    // Hacky solution
+    var renderFunct = function(state) {
+      renderRecList(state);
+    };
+    renderFunct(state);
   });
 }
 
@@ -779,6 +745,7 @@ function watchNewSearch(state) {
     clearRecState(state);
     clearRecList(state);
     renderRecList(state);
+    $('.js-try-again').addClass("hidden");
   });
 }
 
@@ -788,7 +755,23 @@ function watchNext(state) {
     moveUpAPage(state);
     clearRecList(state);
     getPageFromApi(state);
-    // renderRecList(state);
+    // Hacky solution
+    var renderFunct = function(state) {
+      renderRecList(state);
+    };
+    renderFunct(state);
+  });
+}
+
+function watchTryAgain(state) {
+  $('.js-try-again').click(function(event) {
+    clearRecList(state);
+    getPageFromApi(state);
+    // Hacky solution
+    var renderFunct = function(state) {
+      renderRecList(state);
+    };
+    renderFunct(state);
   });
 }
 
@@ -798,7 +781,11 @@ function watchPrevious(state) {
     moveDownAPage(state);
     clearRecList(state);
     getPageFromApi(state);
-    // renderRecList(state);
+    // Hacky solution
+    var renderFunct = function(state) {
+      renderRecList(state);
+    };
+    renderFunct(state);
   });
 }
 
@@ -828,16 +815,26 @@ function watchClear(state) {
   });
 }
 
-// Good
+function watchRender(state) {
+  $('.js-render').click(function(event) {
+    console.log(state);
+    renderRecList(state);
+  });
+}
+
+// EVENT LISTENERS AT WORK
+
 $(function() {
-  watchStart(); // tested
-  watchConfused(); // tested
-  watchSearchMovie(state);
-  watchSearchTV(state);
+  watchStart();
+  watchConfused();
+  watchSearchMovie(state); // Hacky solution
+  watchSearchTV(state); // Hacky solution
   watchNewSearch(state);
-  watchNext(state);
-  watchPrevious(state);
+  watchNext(state); // Hacky solution
+  watchTryAgain(state); // Hacky solution
+  watchPrevious(state); // // Hacky solution
   watchAddtoList(state);
   watchRemoveFromList(state);
   watchClear(state);
+  watchRender(state);
 });
