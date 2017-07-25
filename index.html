@@ -8,37 +8,40 @@
 	<link href="main.css" rel="stylesheet" type="text/css">
 </head>
 <header>
-	<a id="search-title"><h1>MovieRecs</h1></a>
-	<h3>Looking for new recommendations? Start your search here.</h3>
-	<div class="explanation">
-		<h3>How it works:</h3>
-		<p>1. Enter a keyword and search for a <b>movie</b> or <b>TV show</b>.</p>
-		<p>2. If you don't see your results, hit the <b>Try Again</b> button until it appears.
-		<p>(The servers involved are not the most reliable.)
-		<p>3. Hover or click on what you want to learn more about.</p>
-		<p>4. If you like what you see, click <b>Add to List</b>.</p>
-		<p>5. When you are done, click on <b>Go to Your List</b> to see your choices.</p>
-		<button type="button" class="start-button js-start-button">Start!</button>
-	</div>
+	<div class="overlay">
+		<!-- <img src="http://cdn.playbuzz.com/cdn/7da618a4-ba64-42e3-8fae-68a4fa778812/89197bbb-8d92-4bc1-955b-a6e9b7c15b3d.jpg"/> -->
+		<a id="search-title"><h1>MovieRecs</h1></a>
+		<h2>Looking for new recommendations? Start your search here.</h2>
+		<div class="explanation">
+			<h2>How it works:</h2>
+			<p>1. Enter a keyword and search for a <u><b>movie</b></u> or <u><b>TV show</b></u>.</p>
+			<p>2. If you don't see your results, hit the <u><b>Try Again</b></u> button until it appears.
+			<p class="indent">(The servers involved are not the most reliable.)
+			<p>3. Hover or click on what you want to learn more about.</p>
+			<p>4. If you like what you see, click <u><b>Add to List</b></u>.</p>
+			<p>5. When you are done, click on <u><b>Go to Your List</b></u> to see your choices.</p>
+			<button type="button" class="start-button js-start-button">Start!</button>
+		</div>
 
-	<div class="js-search-form hidden">
-		<div class="search-bar">
-	        <input type="text" class="js-query search" 
-	         	   placeholder="Genre, movie, TV show...">
+		<div class="js-search-form hidden">
+			<div class="search-bar">
+		        <input type="text" class="js-query search" 
+		         	   placeholder="Genre, movie, TV show...">
+		    </div>
+		    <div class="search-buttons js-search-button">
+		        <a href="#rec-link">
+	        		<button type="button" class="search-movie">Search Movies!</button>
+	        	</a>
+	        	<a href="#rec-link">
+	        		<button type="button" class="search-tv">Search TV!</button>
+	        	</a>
+	        </div>
 	    </div>
-	    <div class="search-buttons js-search-button">
-	        <a href="#rec-link">
-        		<button type="button" class="search-movie">Search Movies!</button>
-        	</a>
-        	<a href="#rec-link">
-        		<button type="button" class="search-tv">Search TV!</button>
-        	</a>
-        </div>
-    </div>
-    <button type="button" class="confused js-confused hidden">Confused?</button>
-    <a href="#chosen-link" class="hidden your-list">
-    	<button type="button">Go to Your List</button>
-   	</a>
+	    <button type="button" class="confused js-confused hidden">Confused?</button>
+	    <a href="#chosen-link" class="hidden your-list">
+	    	<button type="button">Go to Your List</button>
+	   	</a>
+   	</div>
 </header>
 <div class="separation"></div>
 <body>
@@ -73,13 +76,15 @@
 			<div class="chosen-list js-chosen-list">
 				<!-- Chosen elements are inserted here	 -->
 			</div>
-	    	<button type="button" class="js-clear">Clear List</button>
-			<a href="#search-title">
-	    		<button type="button" class="new-search">New Search</button>
-	   		</a>
-	   		<a href="#rec-link">
-	    		<button type="button">Recommendations</button>
-	   		</a>
+			<div class="row-wish">
+		    	<button type="button" class="js-clear">Clear List</button>
+				<a href="#search-title">
+		    		<button type="button" class="new-search">New Search</button>
+		   		</a>
+		   		<a href="#rec-link">
+		    		<button type="button">Recommendations</button>
+		   		</a>
+		   	</div>
 		</div>
 	</main>
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
