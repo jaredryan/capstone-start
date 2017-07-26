@@ -35,14 +35,14 @@ The following files are contained within one [folder](https://github.com/jaredry
 
 This application employs the heavy use of JavaScript to function. It also makes extensive use of the [API](https://developers.themoviedb.org/3/getting-started) from The Movie Database. The starting point is https://api.themoviedb.org/3.
 
-First, depending on user input, a GET /search/movies or GET /search/TV is performed, which returns a 20 element of array.
+First, depending on user input, a "GET /search/movies" or "GET /search/TV" is performed, which returns a 20 element of array.
   The title of the movie, or name of the TV show, is recorded along with the appropriate ID. 
-Second, using GET /movie/id or /tv/id, the object returned contains additional details about the movie.
-Third, a GET /movie/id/similar or /tv/id/similar query is done to retrieve an array of objects corresponding to similar movies.
-Fourth, in a similarly (pun intended) fashion, a GET /movie/id/recommendations or /tv/id/recommendations is done to retrieve an array of objects corresponding to recommended movies. 
+Second, using "GET /movie/id" or "GET /tv/id", the object returned contains additional details about the movie.
+Third, a "GET /movie/id/similar" or "GET /tv/id/similar" query is done to retrieve an array of objects corresponding to similar movies.
+Fourth, in a similarly (pun intended) fashion, a "GET /movie/id/recommendations" or "GET /tv/id/recommendations" is done to retrieve an array of objects corresponding to recommended movies. 
 All of the retrieved data is inserted into a HTML template to format the data.
 
-While the second, third, and fourth searches are happening, a fifth query is also taking place. However, it is done through the use of a second [API](https://netflixroulette.net/api/) from Netflix Roulette. It performs a search for a movie or for a TV show by using GET on http://netflixroulette.net/api/api.php. A search by title is performed, and the retrieved entry's data is inserted into the HTML template.
+While the second, third, and fourth searches are happening, a fifth query is also taking place. However, it is done through the use of a second [API](https://netflixroulette.net/api/) from Netflix Roulette. It performs a search for a movie or for a TV show by using GET on http://netflixroulette.net/api/api.php with the appropriate query (with a title field with the name of the movie or TV show). A search by title is performed, and the retrieved entry's data is inserted into the HTML template.
 
 The second, third, fourth, and fifth queries each occur 20 times, once for each of the twenty entries returned by the first query.
 
