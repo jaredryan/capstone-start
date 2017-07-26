@@ -46,7 +46,8 @@ var RESULT_HTML_TEMPLATE = (
 );
 
 var WISH_HTML_TEMPLATE = (
-  '<div class="result">' +
+  '<div class="result-container">' +
+    '<div class="result">' +
       '<div class="row">' + 
           '<img class="js-result-image result-image" src="" alt="Awesome Movie Poster">' + 
       '</div>' + 
@@ -82,20 +83,30 @@ var WISH_HTML_TEMPLATE = (
         '<button type="button" class="js-remove remove">Remove</button>' +
       '</div>' +
 
+    '</div>' +
   '</div>'
 );
 
 // Helper function to convert a recommended item to a wish-list item.
 function recToWishCopy(item) {
   var template = $(WISH_HTML_TEMPLATE);
+  console.log(item);
 
   var image = item.find(".js-result-image").attr("src");
-  var summary = item.find('.summary-tooltip').val();
-  var netflix = item.find('.netflix-tooltip').val();
-  var similar = item.find('.similar-tooltip').val();
-  var genre = item.find('.genre-tooltip').val();
-  var details = item.find('.detail-tooltip').val();
-  var otherRecs = item.find('.recommended-tooltip').val();
+  var summary = item.find('.summary-tooltip').text();
+  var netflix = item.find('.netflix-tooltip').text();
+  var similar = item.find('.similar-tooltip').text();
+  var genre = item.find('.genre-tooltip').text();
+  var details = item.find('.detail-tooltip').text();
+  var otherRecs = item.find('.recommended-tooltip').text();
+
+  console.log(image);
+  console.log(summary);
+  console.log(netflix);
+  console.log(similar);
+  console.log(genre);
+  console.log(details);
+  console.log(otherRecs);
 
   template.find(".js-result-image").attr("src", image);
   template.find('.summary-tooltip').html(summary);

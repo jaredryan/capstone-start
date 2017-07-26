@@ -289,7 +289,7 @@ button:hover {
     text-align: left;
     border-radius: 6px;
     padding: 5px;
-    font-size: 18px;
+    width: 270px;
 
     /* Alter these as needed*/
 
@@ -302,58 +302,68 @@ button:hover {
     width: 200px; */
 }
 
+.summary-tooltip, .similar-tooltip, .recommended-tooltip {
+	font-size: 15px;
+}
+
+.netflix-tooltip, .genre-tooltip, .detail-tooltip {
+	font-size: 18px;
+}
+
 .summary-tooltip {
 	position: absolute;
     z-index: 1;
-   	bottom: 100%;
-    left: 0%;
-    margin-left: 0px;
-    width: 200px; 
+   	bottom: 150%;
+    left: 50%;
+    margin-left: -71px;
+    /*margin-top: 30px;*/
+    /*width: 200px; */
 }
 
 .netflix-tooltip {
 	position: absolute;
     z-index: 1;
-   	bottom: 100%;
+   	bottom: 150%;
     left: 50%;
-    margin-left: -100px;
-    width: 200px; 
+    margin-left: -199px;
+    /*margin-top: -30px;*/
+    /*width: 200px; */
 }
 
 .similar-tooltip {
 	position: absolute;
     z-index: 1;
-   	bottom: 100%;
+   	bottom: 255%;
     left: 50%;
-    margin-left: -100px;
-    width: 200px; 	
+    margin-left: -50px;
+    /*width: 200px; 	*/
 }
 
 .genre-tooltip {
 	position: absolute;
     z-index: 1;
-   	bottom: 100%;
+   	bottom: 255%;
     left: 50%;
-    margin-left: -100px;
-    width: 200px; 	
+    margin-left: -135px;
+    /*width: 200px; 	*/
 }
 
 .detail-tooltip {
 	position: absolute;
     z-index: 1;
-   	bottom: 100%;
+   	bottom: 255%;
     left: 50%;
-    margin-left: -100px;
-    width: 200px; 
+    margin-left: -220px;
+    /*width: 200px; */
 }
 
 .recommended-tooltip {
 	position: absolute;
     z-index: 1;
-   	bottom: 100%;
+   	bottom: 365%;
     left: 50%;
-    margin-left: -100px;
-    width: 200px; 	
+    margin-left: -135px;
+    /*width: 20px; 	*/
 }
 
 .tooltip:hover .tooltip-text {
@@ -451,7 +461,7 @@ button:hover {
 	padding-left: 20px;
 }
 
-.go-to-rec, .new-search, .your-list {
+.go-to-rec, .new-search, .your-list, .your-list-2 {
 	vertical-align: middle;
 }
 
