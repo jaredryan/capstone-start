@@ -299,7 +299,7 @@ button:hover {
 }
 
 .summary-tooltip, .similar-tooltip, .recommended-tooltip {
-	font-size: 15px;
+	font-size: 16px;
 }
 
 .netflix-tooltip, .genre-tooltip, .detail-tooltip {

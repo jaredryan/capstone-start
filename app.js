@@ -1,3 +1,4 @@
+// A template for producing a result item
 var RESULT_HTML_TEMPLATE = (
   '<div class="result-container">' + 
     '<div class="result">' +
@@ -45,6 +46,7 @@ var RESULT_HTML_TEMPLATE = (
   '</div>'
 );
 
+// A template for producing a wish list item
 var WISH_HTML_TEMPLATE = (
   '<div class="result-container">' +
     '<div class="result">' +
@@ -87,7 +89,7 @@ var WISH_HTML_TEMPLATE = (
   '</div>'
 );
 
-// Helper function to convert a recommended item to a wish-list item.
+// Helper function to create a wish list item matching a result item.
 function recToWishCopy(item) {
   var template = $(WISH_HTML_TEMPLATE);
   console.log(item);
