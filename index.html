@@ -6,6 +6,7 @@
 	<meta keywords="TV, movies, suggestions, recommendations, lists, television, series, MovieRecs">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="main.css" rel="stylesheet" type="text/css">
+	<link rel="shortcut icon" href="http://www.example.com/myicon.ico"/>
 </head>
 <div class="top-bar">
 	<div class="left-half">
@@ -28,7 +29,9 @@
 			<p>3. Hover or click on what you want to learn more about.</p>
 			<p>4. If you like what you see, click <u><b>Add to Wish List</b></u>.</p>
 			<p>5. When you are done, click on <u><b>Go to Wish List</b></u> to see your choices.</p>
-			<button type="button" class="start-button js-start-button">Start!</button>
+			<a href="#search-title"">
+				<button type="button" class="start-button js-start-button">Start!</button>
+			</a>
 		</div>
 
 		<div class="js-search-form search-form hidden">
@@ -45,7 +48,9 @@
 	        	</a>
 	        </div>
 	    </div>
-	    <button type="button" class="confused js-confused hidden">Confused?</button>
+	    <a href="#search-title"">
+			<button type="button" class="confused js-confused hidden">Confused?</button>
+		</a>
 	    <a href="#chosen-link" class="hidden your-list">
 	    	<button type="button">Go to Wish List</button>
 	   	</a>
