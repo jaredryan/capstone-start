@@ -8,6 +8,8 @@ Table of Contents:
 3. How the Application Works
 4. How to Use the Application
 5. Credits
+  a. Resources Used
+  b. Technologies Used
   
 1. Summary
 
@@ -49,8 +51,32 @@ Other JavaScript functions are mostly there for the convenience of the user, suc
 
 4. How to Use the Application
 
+It can be broken into the following steps:
+1. Read the instructions (if needed) and press Start to begin, which brings up the search bar.
+2. Enter a keyword. The keyword entered should be associated with the title a movie or TV show for best results.
+3. Press the "Search Movies!" or "Search TV!" button to perform a search.
+4. If you don't see your results, hit the Try Again button until it appears (the servers involved are not the most reliable, with a success rate of about 70% as I developed this application). Waitng a second or two in between each successive attempt is recommended.
+  The results should consist of a movie poster, a few small buttons below it, and two larger buttons below it.
+5. Hover or touch the small buttons to learn more about that particular topic. The topics are: Summary, Netflix, Similar, Genre, Details, and Recommended.
+  Summary: contains title and description of the result.
+  Netflix: gives rating on Netflix Roulette (which gets its data from Netflix) and availability on Netflix Roulette (which is closely tied with Netflix itself, hence the title of the button is simply Netflix).
+  Similar: contains a list of similar movies.
+  Genre: contains a list of genre(s) that apply to the movie.
+  Details: depending on whether the result is a movie or TV show, it includes details such as runtime or episode length, number of seasons, airtime or release data, and popularity.
+6. If you like what you see, on that result item, click the button "Add to Wish List". This will add this result's data into the Wish List in an identical format. 
+7. To see more results, click the "Next" button at the end of the "Results" section; to scroll back, click "Previous". Altenatively, click "New Search" to perform a new search.
+8. When you are satisfied with your choices, click any of the "Go to Wish List" buttons, found by the search bar or under each result item; or, alternatively, scroll to the bottom of the page.
+9. Now that you are at your Wish List, delete any undesirable entries by clicking the "Remove" button under the result item you wish to remove, or the "Clear List" button to start over. Click "New Search" if you wish to make a new search (or scroll to the top of the page) or "Go to Results" (or scroll to the middle of the page) to look for more entries to your list. Make your Wish List exactly how you want it for your convenience.
+10. Have fun! If you ever get lost, click the "Confused?" button at the top of the page to display the application's instructions once more.
+
 5. Credits
 
+a. Resources Used
 -The Movie Database (https://www.themoviedb.org/) and 
 -Netflix Roulette (https://netflixroulette.net/), for having Public APIs for developers to use. 
 -Thinkful (https://www.thinkful.com/), whose Frontend Web Development course gave me the skills to do this project.
+
+b. Technologies Used
+-HTML
+-CSS
+-JavaScript
