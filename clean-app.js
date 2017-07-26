@@ -1,45 +1,47 @@
 var RESULT_HTML_TEMPLATE = (
-  '<div class="result">' +
-      '<div class="row">' + 
-          '<img class="js-result-image result-image" src="" alt="Awesome Movie Poster">' + 
-      '</div>' + 
+  '<div class="result-container">' + 
+    '<div class="result">' +
+        '<div class="row">' + 
+            '<img class="js-result-image result-image" src="" alt="Awesome Movie Poster">' + 
+        '</div>' + 
 
-      '<div class="row">' + 
-        '<div class="category cat-left">'+
-          '<p class="js-summary summary tooltip">Summary<span class="tooltip-text summary-tooltip">Summary: \nNot registered</span></p>' + 
+        '<div class="row">' + 
+          '<div class="category cat-left">'+
+            '<p class="js-summary summary tooltip">Summary<span class="tooltip-text summary-tooltip">Summary: \nNot registered</span></p>' + 
+          '</div>'+
+          '<div class="category cat-right">'+
+            '<p class="js-netflix netflix tooltip">Netflix<span class="tooltip-text netflix-tooltip">Not on Netflix Roulette</span></p>' + 
+          '</div>'+
         '</div>'+
-        '<div class="category cat-right">'+
-          '<p class="js-netflix netflix tooltip">Netflix<span class="tooltip-text netflix-tooltip">Not on Netflix Roulette</span></p>' + 
-        '</div>'+
-      '</div>'+
 
-      '<div class="row">' + 
-        '<div class="category-2 cat-left">'+
-          '<p class="js-similar similar tooltip">Similar<span class="tooltip-text similar-tooltip">Similar Movies: \nUndetermined</span></p>' + 
-        '</div>'+
-        '<div class="category-2">'+
-          '<p class="js-genre genre tooltip">Genre<span class="tooltip-text genre-tooltip">Genre: \nNot registered</span></p>' +
-        '</div>'+
-        '<div class="category-2 cat-right">'+
-          '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip">Details: \nNot registered</span></p>' +
-        '</div>'+
-      '</div>' +
-
-      '<div class="row">' + 
-        '<div class="category-3">'+
-          '<p class="js-recommend recommend tooltip">Other Recommendations<span class="tooltip-text recommended-tooltip">Recommended Movies: \nUndetermined</span></p>' + 
-        '</div>'+
-      '</div>' +
-
-      '<div class="row">' + 
-        '<button type="button" class="js-add add">Add to List</button>' +
-        '<div class="go-button">' + 
-          '<a href="#chosen-link" class="js-go go">' +
-            '<button type="button" class="go-list">Go to Your List</button>' + 
-          '</a>' +
+        '<div class="row">' + 
+          '<div class="category-2 cat-left">'+
+            '<p class="js-similar similar tooltip">Similar<span class="tooltip-text similar-tooltip">Similar Movies: \nUndetermined</span></p>' + 
+          '</div>'+
+          '<div class="category-2">'+
+            '<p class="js-genre genre tooltip">Genre<span class="tooltip-text genre-tooltip">Genre: \nNot registered</span></p>' +
+          '</div>'+
+          '<div class="category-2 cat-right">'+
+            '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip">Details: \nNot registered</span></p>' +
+          '</div>'+
         '</div>' +
-      '</div>' +
 
+        '<div class="row">' + 
+          '<div class="category-3">'+
+            '<p class="js-recommend recommend tooltip">Other Recommendations<span class="tooltip-text recommended-tooltip">Recommended Movies: \nUndetermined</span></p>' + 
+          '</div>'+
+        '</div>' +
+
+        '<div class="row">' + 
+          '<button type="button" class="js-add add">Add to List</button>' +
+          '<div class="go-button">' + 
+            '<a href="#chosen-link" class="js-go go">' +
+              '<button type="button" class="go-list">Go to Your List</button>' + 
+            '</a>' +
+          '</div>' +
+        '</div>' +
+
+    '</div>' + 
   '</div>'
 );
 
@@ -676,7 +678,7 @@ function getTerm(state) {
     queryTarget.attr("placeholder", "TYPE IN ME TO SEARCH :)");
   } else {
     // Reset search bar
-    queryTarget.attr("placeholder", "Genre, movie, TV show...");
+    queryTarget.attr("placeholder", "Movie, TV show...");
     queryTarget.val("");
   }
   return query;
