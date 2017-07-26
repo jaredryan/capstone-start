@@ -5,9 +5,9 @@ Search for TV shows or movies to find recommendations based off them, learn more
 
 ## Table of Contents
 
-  - [Summary](#installation)
+  - [Summary](#summary)
   - [Files](#files)  
-  - [How the Application Works](#how-the-application-words)
+  - [How the Application Works](#how-the-application-works)
   - [How to Use the Application](#how-to-use-the-application)
   - [Credits](#credits)
     - [Resources Used](#resources-used)
