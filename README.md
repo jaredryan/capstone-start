@@ -74,11 +74,11 @@ It can be broken into the following steps:
 ### Credits
 
 #### Resources Used
--The Movie Database (https://www.themoviedb.org/) and 
--Netflix Roulette (https://netflixroulette.net/), for having Public APIs for developers to use. 
--Thinkful (https://www.thinkful.com/), whose Frontend Web Development course gave me the skills to do this project.
+  - The Movie Database (https://www.themoviedb.org/) and 
+  - Netflix Roulette (https://netflixroulette.net/), for having Public APIs for developers to use. 
+  - Thinkful (https://www.thinkful.com/), whose Frontend Web Development course gave me the skills to do this project.
 
 #### Technologies Used
--HTML
--CSS
--JavaScript
+  - HTML
+  - CSS
+  - JavaScript
