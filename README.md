@@ -4,15 +4,16 @@
 Search for TV shows or movies to find recommendations based off them, learn more about them, and see availability on Netflix.
 
 ## Table of Contents
-  [1. Summary](#summary)
-  [2. Files](#files)
-  [3. How the Application Works](#application)
-  [4. How to Use the Application](#4. How to Use the Application)
-  [5. Credits](#5.-credits)
-    [a. Resources Used](#a-resources-used)
-    [b. Technologies Used](#b. Technologies Used)
 
-### 1. Summary
+  - [Summary](#installation)
+  - [Files](#files)  
+  - [How the Application Works](#how-the-application-words)
+  - [How to Use the Application](#how-to-use-the-application)
+  - [Credits](#credits)
+    - [Resources Used](#resources-used)
+    - [Technologies Used](#technologies-used)
+
+### Summary
 
 This app uses an API from The Movie Database (https://www.themoviedb.org/documentation/api) and an API from Netflix Roulette (https://netflixroulette.net/api/). It performs a search for a movie or for a TV using the appropriate method of the API from The Movie Database. Upon retrieving movies or TV shows, it performs additional queries within the The Movie Database and Netflix Roulette to gather mre information about the movie or TV show. It then displays 20 of these results within the "Results" portion of the application.
 
@@ -20,7 +21,7 @@ An essential part of the application is that it also keeps a running "Wish List"
 
 An explanation on how to use the application, as well as various navigational and display-altering buttons, are included for the user's convenience.
 
-### 2. Files
+### Files
 
 The following files are contained within one folder: (https://github.com/jaredryan/capstone-start)
   README.md (https://github.com/jaredryan/capstone-start/blob/master/README.md)
@@ -29,7 +30,7 @@ The following files are contained within one folder: (https://github.com/jaredry
   app.js (https://github.com/jaredryan/capstone-start/blob/master/app.js)
   favicon.ico (https://github.com/jaredryan/capstone-start/blob/master/favicon.ico)
   
-### 3. How the Application Works
+### How the Application Works
 
 This application employs the heavy use of JavaScript to function. It also makes extensive use of the API from The Movie Database—the following link takes you to the documentation of how to use it: https://developers.themoviedb.org/3/getting-started. The starting point is https://api.themoviedb.org/3.
 
@@ -50,7 +51,7 @@ JavaScript powers the rest of the application. The most notable feature is the W
 
 Other JavaScript functions are mostly there for the convenience of the user, such as an explanation of how to use the app that you can toggle on or off by clicking the "Confused?" button, buttons that take you to the part of the application that you want to go to, a "Clear List" button to clear all entries on the Wish List, and a "New Search" button that clears the results page and guides you to the search bar.
 
-### 4. How to Use the Application
+### How to Use the Application
 
 It can be broken into the following steps:
 1. Read the instructions (if needed) and press Start to begin, which brings up the search bar.
@@ -70,14 +71,14 @@ It can be broken into the following steps:
 9. Now that you are at your Wish List, delete any undesirable entries by clicking the "Remove" button under the result item you wish to remove, or the "Clear List" button to start over. Click "New Search" if you wish to make a new search (or scroll to the top of the page) or "Go to Results" (or scroll to the middle of the page) to look for more entries to your list. Make your Wish List exactly how you want it for your convenience.
 10. Have fun! If you ever get lost, click the "Confused?" button at the top of the page to display the application's instructions once more.
 
-### 5. Credits
+### Credits
 
-#### a. Resources Used
+#### Resources Used
 -The Movie Database (https://www.themoviedb.org/) and 
 -Netflix Roulette (https://netflixroulette.net/), for having Public APIs for developers to use. 
 -Thinkful (https://www.thinkful.com/), whose Frontend Web Development course gave me the skills to do this project.
 
-#### b. Technologies Used
+#### Technologies Used
 -HTML
 -CSS
 -JavaScript
