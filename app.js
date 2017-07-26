@@ -141,10 +141,6 @@ function addToWishList(state, item) {
   state.wish_list.push(copy);
 }
 
-function addToRecList(state, item) {
-  state.rec_list.push(item);
-}
-
 function removeFromWishList(state, item) {
   var index = state.wish_list.indexOf(item);
   state.wish_list.splice(index, 1);
@@ -351,7 +347,7 @@ function addRecommendedData(data, template, state) {
   } 
 }
 
-// TMDB DETAILS SECTION RETRIEVAL
+
 
 function getMoreDetails(template, ID, state, details) {
   // Wrapper for add functions for movie/tv
@@ -380,6 +376,7 @@ function getMoreDetails(template, ID, state, details) {
   });
 }
 
+// TMDB movie retrieval
 function addTitleData(data, template, newDetail) {
   // Get genre and insert
   var string = '';
@@ -407,6 +404,7 @@ function addTitleData(data, template, newDetail) {
   template.find('.detail-tooltip').html(newDetail);
 }
 
+// TMDB TV retrieval
 function addNameData(data, template, newDetail) {
   // Get genre and insert
   var string = '';
@@ -423,7 +421,7 @@ function addNameData(data, template, newDetail) {
     }
   } 
 
-  // FORMT AND ADD NEW DETAILS
+  // FORMAT AND ADD NEW DETAILS
 
   // Accomodate seasons
   newDetail += "<span>Number of Seasons: ";
@@ -462,6 +460,7 @@ function addNameData(data, template, newDetail) {
 
 // FORMATS RETRIEVED DATA
 
+// Callback function for getPageFromApi to process the result
 function formatAndAddSearchData(data, state) {
   // First update state to this page
   var lastPage = data.total_pages;
@@ -487,7 +486,10 @@ function formatAndAddSearchData(data, state) {
   orderExec(state, recList, renderRecList);
 }
 
-// As good as I can
+// 1. For movies
+// 2. Performed on each result item received in JSON file.
+// 3. It retrieves data from the item, performs more searches to retrieve
+// more information, and inserts all data into a RESULT_HTML_TEMPLATE item.
 function formatMovieResult(state, result) {
   // Create template
   var template = $(RESULT_HTML_TEMPLATE);
@@ -567,6 +569,10 @@ function formatMovieResult(state, result) {
   return template;
 }
 
+// 1. For TV shows
+// 2. Performed on each result item received in JSON file.
+// 3. It retrieves data from the item, performs more searches to retrieve
+// more information, and inserts all data into a RESULT_HTML_TEMPLATE item.
 function formatTVResult(state, result) {
   // Create template
   var template = $(RESULT_HTML_TEMPLATE);
@@ -699,6 +705,8 @@ function getTerm(state) {
 
 // EVENT LISTENERS
 
+
+// When "Start" is clicked, makes format changes for it
 function watchStart(state) {
   $('.explanation').on('click', '.js-start-button', function(event) {
     $(this).addClass('hidden');
@@ -709,6 +717,7 @@ function watchStart(state) {
   });
 }
 
+// When "Confused?" is clicked, makes format changes for it
 function watchConfused(state) {
   $('header').on('click', '.js-confused', function(event) {
     $(this).addClass('hidden');
@@ -720,6 +729,7 @@ function watchConfused(state) {
   });
 }
 
+// When "Search Movie!" is clicked, makes the request and displays it
 function watchSearchMovie(state) {
   $('.search-movie').click(function(event) {
     var searchTerm = getTerm(state);
@@ -738,7 +748,7 @@ function watchSearchMovie(state) {
   });
 }
 
-// Okay. I don't get the last part. It also doesn't function every time
+// When "Search TV!" is clicked, makes the request and displays it
 function watchSearchTV(state) {
   $('.search-tv').click(function(event) {
     var searchTerm = getTerm(state);
@@ -757,7 +767,7 @@ function watchSearchTV(state) {
   });
 }
 
-// Good
+// When "New Search" is clicked, it clears the recommended list
 function watchNewSearch(state) {
   $('.new-search').click(function(event) {
     clearRecState(state);
@@ -767,7 +777,7 @@ function watchNewSearch(state) {
   });
 }
 
-// Okay. I don't get the last part. It also doesn't function every time
+// When "Next" is clicked, it performs a new query for the next page and displays it
 function watchNext(state) {
   $('.next').click(function(event) {
     moveUpAPage(state);
@@ -781,6 +791,7 @@ function watchNext(state) {
   });
 }
 
+// When "Try Again" is clicked, it performs a new query and displays it
 function watchTryAgain(state) {
   $('.js-try-again').click(function(event) {
     clearRecList(state);
@@ -793,7 +804,7 @@ function watchTryAgain(state) {
   });
 }
 
-// Okay. I don't get the last part. It also doesn't function every time
+// When "Previous" is clicked, it performs a new query for the next page and displays it
 function watchPrevious(state) {
   $('.previous').click(function(event) {
     moveDownAPage(state);
@@ -807,7 +818,7 @@ function watchPrevious(state) {
   });
 }
 
-// Good
+// When "Add to List" is clicked, it adds the result item to the wish list
 function watchAddtoList(state) {
   $('.js-rec-list').on('click', '.js-add', function(event) {
     var target = $(this).parent().parent();
@@ -816,7 +827,7 @@ function watchAddtoList(state) {
   });
 }
 
-// Good
+// When "Remove" is clicked, it removes the wish list item from the wish list
 function watchRemoveFromList(state) {
   $('.js-chosen-list').on('click', '.js-remove', function(event) {
     var target = $(this).parent().parent();
@@ -825,7 +836,7 @@ function watchRemoveFromList(state) {
   });
 }
 
-// Good
+// When "Clear List" is clicked, it removes all wish list items from the wish list
 function watchClear(state) {
   $('.js-clear').click(function(event) {
     clearWishState(state);
