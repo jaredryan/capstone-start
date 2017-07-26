@@ -8,6 +8,7 @@
 	<link href="main.css" rel="stylesheet" type="text/css">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 </head>
+<!-- Top Bar with necessary credit to APIs used -->
 <div class="top-bar">
 	<div class="left-half">
 		<p class="left">Powered by <a href="https://www.themoviedb.org/?language=en"><u>The Movie DB</u></a></p>
@@ -16,6 +17,7 @@
 		<p class="right">Netflix Information obtained via <a href="https://netflixroulette.net"><u>Netflix Roulette</u></a></p>
 	</div>
 </div>
+<!-- Search and Explanation Section -->
 <header>
 	<div class="overlay">
 		<a id="search-title"><h1>MovieRecs</h1></a>
@@ -40,10 +42,10 @@
 		    </div>
 		    <div class="search-buttons js-search-button">
 		        <a href="#rec-link">
-	        		<button type="button" class="search-movie">Search Movies!</button>
+	        		<button type="button" class="search-movie color-2">Search Movies!</button>
 	        	</a>
 	        	<a href="#rec-link">
-	        		<button type="button" class="search-tv">Search TV!</button>
+	        		<button type="button" class="search-tv color-2">Search TV!</button>
 	        	</a>
 	        </div>
 	    </div>
@@ -56,25 +58,27 @@
    	</div>
 </header>
 <div class="separation"></div>
+<!-- Contains Results and Wish List sections -->
 <body>
 	<main>
+		<!-- Search Results sections -->
 		<div class="rec-section">
 			<div class="top-bar section-title">
 				<a id="rec-link" class="rec-link"><h1 class="title">Results</h1></a>
 			</div>
 			<div class="rec-list js-rec-list">
-				<!-- Results are inserted here	 -->
+				<!-- Returned results are inserted here	 -->
 			</div>
 			<div class="update-results">
 				<!-- Update visibility and links of these buttons regularly	 -->
 				<a href="#rec-link">
-	        		<button type="button" class="previous hidden"><- Previous</button>
+	        		<button type="button" class="previous hidden color-2"><- Previous</button>
 	        	</a>
 	        	<a href="#rec-link">
-	        		<button type="button" class="js-try-again try-again hidden">Try Again</button>
+	        		<button type="button" class="js-try-again try-again hidden color-2">Try Again</button>
 	        	</a>
 	        	<a href="#rec-link">
-	        		<button type="button" class="next hidden">Next -></button>
+	        		<button type="button" class="next hidden color-2">Next -></button>
 	        	</a>
 			</div>
 			<div class="row-next">
@@ -87,14 +91,15 @@
 	   		</div>
 		</div>
 		<div class="separation"></div>
+		<!-- Display Wish List section -->
 		<div class="chosen-section js-chosen-section">
 			<div class="top-bar section-title">
 				<a id="chosen-link" class="chosen-link"><h1 class="title">Wish List</h1></a>
 			</div>
 			<div class="chosen-list js-chosen-list">
-				<!-- Chosen elements are inserted here	 -->
+				<!-- Chosen wish list elements are inserted here -->
 			</div>
-			<button type="button" class="js-clear clear hidden">Clear List</button>
+			<button type="button" class="js-clear clear hidden color-2">Clear List</button>
 			<div class="row-next">
 				<a href="#search-title">
 		    		<button type="button" class="new-search">New Search</button>
@@ -105,6 +110,7 @@
 		   	</div>
 		</div>
 	</main>
+	<!-- Links to JavaScript and jQuery -->
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 	<script type="text/javascript" src="app.js"></script>
 </body>
