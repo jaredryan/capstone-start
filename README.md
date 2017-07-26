@@ -5,8 +5,8 @@ Search for TV shows or movies to find recommendations based off them, learn more
 
 ## Table of Contents
   [1. Summary](#summary)
-  [2. Files](#2.-Files)
-  [3. How the Application Works](#3. How the Application Works)
+  [2. Files](#files)
+  [3. How the Application Works](#application)
   [4. How to Use the Application](#4. How to Use the Application)
   [5. Credits](#5.-credits)
     [a. Resources Used](#a-resources-used)
