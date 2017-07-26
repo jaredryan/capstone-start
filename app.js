@@ -33,10 +33,10 @@ var RESULT_HTML_TEMPLATE = (
         '</div>' +
 
         '<div class="row">' + 
-          '<button type="button" class="js-add add">Add to List</button>' +
+          '<button type="button" class="js-add add">Add to Wish List</button>' +
           '<div class="go-button">' + 
             '<a href="#chosen-link" class="js-go go">' +
-              '<button type="button" class="go-list">Go to Your List</button>' + 
+              '<button type="button" class="go-list">Go to Wish List</button>' + 
             '</a>' +
           '</div>' +
         '</div>' +
