@@ -5,22 +5,22 @@ var RESULT_HTML_TEMPLATE = (
       '</div>' + 
 
       '<div class="row">' + 
-        '<div class="category">'+
+        '<div class="category cat-left">'+
           '<p class="js-summary summary tooltip">Summary<span class="tooltip-text summary-tooltip">Summary: \nNot registered</span></p>' + 
         '</div>'+
-        '<div class="category">'+
+        '<div class="category cat-right">'+
           '<p class="js-netflix netflix tooltip">Netflix<span class="tooltip-text netflix-tooltip">Not on Netflix Roulette</span></p>' + 
         '</div>'+
       '</div>'+
 
       '<div class="row">' + 
-        '<div class="category-2">'+
+        '<div class="category-2 cat-left">'+
           '<p class="js-similar similar tooltip">Similar<span class="tooltip-text similar-tooltip">Similar Movies: \nUndetermined</span></p>' + 
         '</div>'+
         '<div class="category-2">'+
           '<p class="js-genre genre tooltip">Genre<span class="tooltip-text genre-tooltip">Genre: \nNot registered</span></p>' +
         '</div>'+
-        '<div class="category-2">'+
+        '<div class="category-2 cat-right">'+
           '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip">Details: \nNot registered</span></p>' +
         '</div>'+
       '</div>' +
@@ -50,22 +50,22 @@ var WISH_HTML_TEMPLATE = (
       '</div>' + 
 
       '<div class="row">' + 
-        '<div class="category">'+
+        '<div class="category cat-left">'+
           '<p class="js-summary summary tooltip">Summary<span class="tooltip-text summary-tooltip">Summary: \nNot registered</span></p>' + 
         '</div>'+
-        '<div class="category">'+
+        '<div class="category cat-right">'+
           '<p class="js-netflix netflix tooltip">Netflix<span class="tooltip-text netflix-tooltip">Not on Netflix Roulette</span></p>' + 
         '</div>'+
       '</div>'+
 
       '<div class="row">' + 
-        '<div class="category-2">'+
+        '<div class="category-2 cat-left">'+
           '<p class="js-similar similar tooltip">Similar<span class="tooltip-text similar-tooltip">Similar Movies: \nUndetermined</span></p>' + 
         '</div>'+
         '<div class="category-2">'+
           '<p class="js-genre genre tooltip">Genre<span class="tooltip-text genre-tooltip">Genre: \nNot registered</span></p>' +
         '</div>'+
-        '<div class="category-2">'+
+        '<div class="category-2 cat-right">'+
           '<p class="js-details details tooltip">Details<span class="tooltip-text detail-tooltip">Details: \nNot registered</span></p>' +
         '</div>'+
       '</div>' +
@@ -626,7 +626,8 @@ function formatTVResult(state, result) {
 // RENDER ELEMENTS
 
 function renderWishList(state) {
-  if (state.wish_list == []) {
+  console.log(state.wish_list);
+  if (state.wish_list.length === 0) {
     $('.js-chosen-list').html("");
     $('.js-clear').addClass("hidden")
   } else {
@@ -634,7 +635,7 @@ function renderWishList(state) {
        return item;
     });
     $('.js-chosen-list').html(results);
-    $('.js-clear').removeClass("hidden")
+    $('.js-clear').removeClass("hidden");
   }
 }
 
@@ -817,13 +818,6 @@ function watchClear(state) {
   });
 }
 
-function watchRender(state) {
-  $('.js-render').click(function(event) {
-    console.log(state);
-    renderRecList(state);
-  });
-}
-
 // EVENT LISTENERS AT WORK
 
 $(function() {
@@ -838,5 +832,4 @@ $(function() {
   watchAddtoList(state);
   watchRemoveFromList(state);
   watchClear(state);
-  watchRender(state);
 });
