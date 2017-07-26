@@ -4,12 +4,12 @@
 Search for TV shows or movies to find recommendations based off them, learn more about them, and see availability on Netflix.
 
 ## Table of Contents
-  [1. Summary](#1. Summary)
-  [2. Files](#2. Files)
+  [1. Summary](#summary)
+  [2. Files](#2.-Files)
   [3. How the Application Works](#3. How the Application Works)
   [4. How to Use the Application](#4. How to Use the Application)
-  [5. Credits](#5. Credits)
-    [a. Resources Used](#a. Resources Used)
+  [5. Credits](#5.-credits)
+    [a. Resources Used](#a-resources-used)
     [b. Technologies Used](#b. Technologies Used)
 
 ### 1. Summary
