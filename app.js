@@ -661,34 +661,29 @@ function renderWishList(state) {
 }
 
 function renderRecList(state) {
-  // If empty, render only Try Again and stop
+  // Render Items
   if (state.rec_list == []) {
-    $('.js-try-again').removeClass("hidden");
     $('.js-rec-list').html("");
-    $('.previous').addClass("hidden");
-    $('.next').addClass("hidden");
   } else {
-    // Otherwise, render Items
     var results = state.rec_list.map(function(item) {
       return item;
     });
     $('.js-rec-list').html(results);
+  }
 
-    // Remove Try Again
-    $('.js-try-again').addClass("hidden");
+  // Render Prev, Try Again,  and Next, respectively
+  if (state.page_num === 1) {
+    $('.previous').addClass("hidden");
+  } else {
+    $('.previous').removeClass("hidden");
+  }
 
-    // Render Prev and Next, as needed
-    if (state.page_num === 1) {
-      $('.previous').addClass("hidden");
-    } else {
-      $('.previous').removeClass("hidden");
-    }
+  $('.js-try-again').removeClass("hidden");
 
-    if (state.page_num < state.last_page) {
-      $('.next').removeClass("hidden");
-    } else {
-      $('.next').addClass("hidden");
-    }
+  if (state.page_num < state.last_page) {
+    $('.next').removeClass("hidden");
+  } else {
+    $('.next').addClass("hidden");
   }
 }
 
