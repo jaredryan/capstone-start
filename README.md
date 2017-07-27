@@ -1,4 +1,4 @@
-# MovieRecs [here](https://jaredryan.github.io/capstone-start/)
+# MovieRecs  [Live](https://jaredryan.github.io/capstone-start/)
 
 ![Dock](images/search-bar.png)
 ![Dock](images/results.png)
