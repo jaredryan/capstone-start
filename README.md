@@ -1,5 +1,10 @@
 # [MovieRecs](https://jaredryan.github.io/capstone-start/)
 
+![Dock](images/search-bar.png)
+![Dock](images/results.png)
+![Dock](images/wish-list.png)
+
+
 ## Description
 Search for TV shows or movies to find recommendations based off them, learn more about them, and see availability on Netflix.
 
@@ -57,11 +62,11 @@ Other JavaScript functions are mostly there for the convenience of the user, suc
 It can be broken into the following steps:
 1. Read the instructions (if needed) and press Start to begin, which brings up the search bar.
 
-![Dock](images/Explanation.png)
+![Dock](images/explanation.png)
 
 2. Enter a keyword. The keyword entered should be associated with the title a movie or TV show for best results.
 
-![Dock](images/Search Bar.png)
+![Dock](images/search-bar.png)
 
 3. Press the "Search Movies!" or "Search TV!" button to perform a search.
 4. If you don't see your results, hit the Try Again button until it appears (the servers involved are not the most reliable, with a success rate of about 70% as I developed this application). Waitng a second or two in between each successive attempt is recommended.
