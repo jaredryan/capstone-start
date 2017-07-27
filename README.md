@@ -73,7 +73,7 @@ It can be broken into the following steps:
   The results should consist of a movie poster, a few small buttons below it, and two larger buttons below it.
 ![Dock](images/results.png)
 5. Hover or touch the small buttons to learn more about that particular topic. The topics are: Summary, Netflix, Similar, Genre, Details, and Recommended.
-![Dock](images/hover.png)
+![Dock](images/hover.jpg)
   Summary: contains title and description of the result.
   Netflix: gives rating on Netflix Roulette (which gets its data from Netflix) and availability on Netflix Roulette (which is closely tied with Netflix itself, hence the title of the button is simply Netflix).
   Similar: contains a list of similar movies.
@@ -82,7 +82,7 @@ It can be broken into the following steps:
 6. If you like what you see, on that result item, click the button "Add to Wish List". This will add this result's data into the Wish List in an identical format. 
 7. To see more results, click the "Next" button at the end of the "Results" section; to scroll back, click "Previous". Altenatively, click "New Search" to perform a new search.
 8. When you are satisfied with your choices, click any of the "Go to Wish List" buttons, found by the search bar or under each result item; or, alternatively, scroll to the bottom of the page.
-![Dock](images/before-populated.png)
+![Dock](images/before-populated)
 9. Now that you are at your Wish List, delete any undesirable entries by clicking the "Remove" button under the result item you wish to remove, or the "Clear List" button to start over. Click "New Search" if you wish to make a new search (or scroll to the top of the page) or "Go to Results" (or scroll to the middle of the page) to look for more entries to your list. Make your Wish List exactly how you want it for your convenience.
 ![Dock](images/wish-list.png)
 10. Have fun! If you ever get lost, click the "Confused?" button at the top of the page to display the application's instructions once more.
