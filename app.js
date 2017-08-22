@@ -741,10 +741,10 @@ function watchSearchMovie(state) {
     setMovieAsType(state);
     getDataFromApi(state, searchTerm);
     // Hacky solution
-    var renderFunct = function(state) {
-      renderRecList(state);
-    };
-    renderFunct(state);
+    // var renderFunct = function(state) {
+    //   renderRecList(state);
+    // };
+    // renderFunct(state);
   });
 }
 
@@ -760,10 +760,10 @@ function watchSearchTV(state) {
     setTVAsType(state);
     getDataFromApi(state, searchTerm);
     // Hacky solution
-    var renderFunct = function(state) {
-      renderRecList(state);
-    };
-    renderFunct(state);
+  //   var renderFunct = function(state) {
+  //     renderRecList(state);
+  //   };
+  //   renderFunct(state);
   });
 }
 
@@ -784,10 +784,10 @@ function watchNext(state) {
     clearRecList(state);
     getPageFromApi(state);
     // Hacky solution
-    var renderFunct = function(state) {
-      renderRecList(state);
-    };
-    renderFunct(state);
+    // var renderFunct = function(state) {
+    //   renderRecList(state);
+    // };
+    // renderFunct(state);
   });
 }
 
@@ -797,10 +797,10 @@ function watchTryAgain(state) {
     clearRecList(state);
     getPageFromApi(state);
     // Hacky solution
-    var renderFunct = function(state) {
-      renderRecList(state);
-    };
-    renderFunct(state);
+    // var renderFunct = function(state) {
+    //   renderRecList(state);
+    // };
+    // renderFunct(state);
   });
 }
 
@@ -811,10 +811,10 @@ function watchPrevious(state) {
     clearRecList(state);
     getPageFromApi(state);
     // Hacky solution
-    var renderFunct = function(state) {
-      renderRecList(state);
-    };
-    renderFunct(state);
+    // var renderFunct = function(state) {
+    //   renderRecList(state);
+    // };
+    // renderFunct(state);
   });
 }
 
