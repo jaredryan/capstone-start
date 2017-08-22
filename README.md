@@ -1,4 +1,4 @@
-# MovieRecs  [(See it Live)](https://jaredryan.github.io/capstone-start/)
+# MovieRecs  [(See it Live)](https://jaredryan.github.io/movie_recs/)
 
 ![Dock](images/search-bar.png)
 ![Dock](images/results.png)
@@ -28,13 +28,13 @@ An explanation on how to use the application, as well as various navigational an
 
 ### Files
 
-The following files are contained within one [folder](https://github.com/jaredryan/capstone-start):
+The following files are contained within one [folder](https://github.com/jaredryan/movie_recs):
 
-  - [README.md](https://github.com/jaredryan/capstone-start/blob/master/README.md)
-  - [index.html](https://github.com/jaredryan/capstone-start/blob/master/index.html)
-  - [main.css](https://github.com/jaredryan/capstone-start/blob/master/main.css)
-  - [app.js](https://github.com/jaredryan/capstone-start/blob/master/app.js)
-  - [favicon.ico](https://github.com/jaredryan/capstone-start/blob/master/favicon.ico)
+  - [README.md](https://github.com/jaredryan/movie_recs/blob/master/README.md)
+  - [index.html](https://github.com/jaredryan/movie_recs/blob/master/index.html)
+  - [main.css](https://github.com/jaredryan/movie_recs/blob/master/main.css)
+  - [app.js](https://github.com/jaredryan/movie_recs/blob/master/app.js)
+  - [favicon.ico](https://github.com/jaredryan/movie_recs/blob/master/favicon.ico)
   
 ### How the Application Works
 
